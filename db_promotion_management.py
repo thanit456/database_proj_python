@@ -3,33 +3,44 @@ from mysql.connector import Error
 
 # hyperparameter
 databaseName = 'too_superstore'
-tableName = 'branch'
-
+tableName = 'promotion'
 password = 'eieiza555'
 
-class Customer() :
+# global variable
+countPromotionID = 1
+SIZE_PROMOTION_ID = 4
+
+def getPromotionID():
+    global countPromotionID
+    if len(countPromotionID) > SIZE_PROMOTION_ID:
+        return
+    promotionID = ('0' * (SIZE_PROMOTION_ID - len(countPromotionID)) + str(countPromotionID))
+    countPromotionID += 1
+    return promotionID
+
+class Promotion() :
     def __init__(self, data) :
-        self.custDataObj = CustomerDB(data)
+        self.promotionDataObj = PromotionDB(data)
         
     def write(self) :
-        return self.custDataObj.writeDB("testdb","test")
+        return self.promotionDataObj.writeDB(databaseName, tableName)
         
     def search(self) :
-        return self.custDataObj.searchDB("testdb","test")
+        return self.promotionDataObj.searchDB(databaseName, tableName)
     
     def searchName(self) :
-        return self.custDataObj.searchNameDB("testdb","test")
+        return self.promotionDataObj.searchNameDB(databaseName, tableName)
     
     def delete(self) :
-        return self.custDataObj.deleteDB("testdb","test")
+        return self.promotionDataObj.deleteDB(databaseName, tableName)
 
     def getInfo(self) :
-        return self.custDataObj.data
+        return self.promotionDataObj.data
 
     
     
 
-class CustomerDB() :
+class PromotionDB() :
 
     def __init__(self, data) :
         self.data = data
@@ -39,12 +50,15 @@ class CustomerDB() :
         wdata=self.data
 
         try:
-            connection = mysql.connector.connect(host='localhost',database='testdb',user='root',password=password)
+            connection = mysql.connector.connect(host='localhost',database=databasename,user='root',password=password)
        
-            objdata = (wdata[0], wdata[1])
+            objdata = (wdata[0], wdata[1], wdata[2], wdata[3], wdata[4])
             
-            sqlQuery = "insert into "+table+" (id, name) " \
-                               "values (%s,%s)"
+            # increment and get promotionID 
+            promotionID = getPromotionID()
+
+            sqlQuery = "insert into "+table+" (PromotionID, ProductID, StartDate, EndDate, Percentage, MemberPointCost) " \
+                               "values ( "+ promotionID +", %s, %s, %s, %.2f, %d)"
             
             cursor = connection.cursor()
             cursor.execute(sqlQuery, objdata)
@@ -71,11 +85,11 @@ class CustomerDB() :
         wdata=self.data
 
         try:
-            connection = mysql.connector.connect(host='localhost',database='testdb',user='root',password=password)
+            connection = mysql.connector.connect(host='localhost',database=databasename,user='root',password=password)
        
             objdata = (wdata[0],)
             
-            sqlQuery = "DELETE FROM "+ table + " WHERE id = %s"
+            sqlQuery = "DELETE FROM "+ table + " WHERE PromotionID = %s"
             
             cursor = connection.cursor()
             cursor.execute(sqlQuery, objdata)
@@ -96,7 +110,7 @@ class CustomerDB() :
         wkey = str(self.data[0])
 
         try:
-            connection = mysql.connector.connect(host='localhost',database='testdb',user='root',password=password)
+            connection = mysql.connector.connect(host='localhost',database=databasename,user='root',password='win448800')
             objdata = (wkey,)
             sqlQuery = "select * from "+table+" where id = %s"
             
@@ -124,7 +138,7 @@ class CustomerDB() :
         wkey = str(self.data[1]) #correct here
 
         try:
-            connection = mysql.connector.connect(host='localhost',database='testdb',user='root',password=password)
+            connection = mysql.connector.connect(host='localhost',database=databasename,user='root',password=password)
             objdata = (wkey,)
             sqlQuery = "select * from "+table+" where name = %s" #correct here
             
