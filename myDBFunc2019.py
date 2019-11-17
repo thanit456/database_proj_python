@@ -17,6 +17,8 @@ class Customer() :
 
     def getInfo(self) :
         return self.custDataObj.data
+
+    
     
 
 class CustomerDB() :
