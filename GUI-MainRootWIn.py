@@ -18,6 +18,8 @@ class RootWin() :
         searchNameButton.pack(side=TOP)
         exitButton = Button(root, text="Exit", command=self.exitProgram)
         exitButton.pack(side=BOTTOM)
+        deleteButton = Button(root, text="Delete by ID", command=self.popDeleteWin)
+        deleteButton.pack(side=TOP)
         root.geometry('200x150+100+100')
         root.mainloop()
         
@@ -29,8 +31,8 @@ class RootWin() :
         s1 = SearchNameWin("Search by Name")
     def exitProgram(self) :
         exit()
-
-
+    def popDeleteWin(self):
+        d1 = DeleteWin("Delete by ID")
 
 class CustomerWindow() :
     def __init__(self, title) :
@@ -113,17 +115,20 @@ class SearchNameWin(CustomerWindow) :
         aCustomer = Customer(dataentry)
         
         retmsg = aCustomer.searchName()
-
-        if retmsg[0] == "0" :
-            self.entry_id.delete(0, END)
-            self.entry_id.insert(0, aCustomer.getInfo()[0])
-            self.entry_name.delete(0, END)
-            self.entry_name.insert(0, aCustomer.getInfo()[1])
-            
-        else :
-            self.entry_id.delete(0, END)
-            self.entry_id.insert(0, "?????")
         self.label_status.config(text=retmsg[1])
-        
+
+class DeleteWin(CustomerWindow) :
+    def __init__(self, title) :
+        super().__init__(title)
+        self.button_submit.config(text="Delete", command=self.deleteCust)
+        self.button_submit=Button(self.cwin)
+    
+    def deleteCust(self) :
+        self.cwin.title("Deleted")
+        dataentry = [self.entry_id.get(), self.entry_name.get()]
+        aCustomer = Customer(dataentry)
+        retmsg = aCustomer.delete()
+        self.label_status.config(text=retmsg[1])
+
 
 Mainmenu = RootWin()
