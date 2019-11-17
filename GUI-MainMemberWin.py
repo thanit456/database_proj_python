@@ -3,6 +3,7 @@ from tkinter import *
 class RootWin() :
     def __init__(self) :
         root = Tk()
+        root.title("Member Main Menu")
         
         header = Label(root, text="Main Menu")
         header.pack()
@@ -31,6 +32,7 @@ class SearchWin() :
 
         def popupSelect():
             self.sbwin = Tk()
+            self.sbwin.title("Select Branch Name")
             self.sbwin.geometry("250x250")
             self.scrollbar = Scrollbar(self.sbwin)
             self.scrollbar.pack(side=RIGHT, fill=Y)
