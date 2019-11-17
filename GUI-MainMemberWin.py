@@ -8,16 +8,42 @@ class RootWin() :
         header = Label(root, text="Main Menu")
         header.pack()
         
-        searchButton = Button(root, text="Search by ID", command=self.popSearchWin)
-        searchButton.pack(side=TOP)
+        searchProductButton = Button(root, text="Search Product by Branch Name and  Product Name", command=self.popSearchProductWin)
+        searchProductButton.pack(side=TOP)
+
+        searchPromotionByProductButton = Button(root, text="Search Promotion by Product Name", command=self.popSearchPromotionByProductWin)
+        searchPromotionByProductButton.pack(side=TOP)
 
         root.geometry('300x200')
         root.mainloop()
         
-    def popSearchWin(self) :
-        s1 = SearchWin("Product Search")
+    def popSearchProductWin(self) :
+        s1 = SearchProductWin("Product Search")
+    def popSearchPromotionByProductWin(self) :
+        s2 = SearchPromotionWin("Promotion Search")
 
-class SearchWin() :
+class SearchPromotionWin() :
+    def __init__(self,title):
+        self.cwin = Toplevel()
+        self.cwin.title(title)
+        self.cwin.geometry('300x200')
+
+        self.label_name = Label(self.cwin,text="Product Name :")
+
+        self.entry_name = Entry(self.cwin)
+
+        self.label_name.grid(row=0,column=0)
+        self.entry_name.grid(row=0,column=1)
+        
+        self.button_submit=Button(self.cwin, text ="SEARCH", command=self.cwin.destroy) #need to add command for search
+        self.button_exit=Button(self.cwin, text="EXIT", command=self.cwin.destroy)
+
+        self.button_submit.grid(row=1,column=1)
+        self.button_exit.grid(row=2, column=1)
+
+
+
+class SearchProductWin() :
     def __init__(self, title) :
         self.cwin = Toplevel()
         self.cwin.title(title)
@@ -25,10 +51,8 @@ class SearchWin() :
 
         self.x = 0
         
-        self.label_id=Label(self.cwin, text="Branch Name :")
+        self.label_branch=Label(self.cwin, text="Branch Name :")
         self.label_name=Label(self.cwin, text="Product Name :")
-
-        self.entry_id=Entry(self.cwin)
 
         def popupSelect():
             self.sbwin = Tk()
@@ -57,10 +81,10 @@ class SearchWin() :
         self.button_select = Button(self.cwin,text="Select Branch",command = popupSelect)
         self.entry_name=Entry(self.cwin)
 
-        self.button_submit=Button(self.cwin, text ="SEARCH", command=self.cwin.destroy)
+        self.button_submit=Button(self.cwin, text ="SEARCH", command=self.cwin.destroy) #need to add command for search
         self.button_exit=Button(self.cwin, text="EXIT", command=self.cwin.destroy)
 
-        self.label_id.grid(row=0,column=0)
+        self.label_branch.grid(row=0,column=0)
         self.label_name.grid(row=1,column=0)
         
         self.button_select.grid(row=0,column=1)
@@ -69,8 +93,6 @@ class SearchWin() :
         self.button_submit.grid(row=2,column=1)
         self.button_exit.grid(row=3, column=1)
 
-        self.label_status=Label(self.cwin, text="")
-        self.label_status.grid(row=5, columnspan=2)
 
 
 Mainmenu = RootWin()
