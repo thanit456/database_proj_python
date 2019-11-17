@@ -14,6 +14,9 @@ class Customer() :
     
     def searchName(self) :
         return self.custDataObj.searchNameDB("testdb","test")
+    
+    def delete(self) :
+        return self.custDataObj.deleteDB("testdb","test")
 
     def getInfo(self) :
         return self.custDataObj.data
@@ -29,10 +32,7 @@ class CustomerDB() :
         wdata=self.data
 
         try:
-            connection = mysql.connector.connect(host='localhost',
-                                                 database=databasename,
-                                                 user='root',
-                                                 password='password')
+            connection = mysql.connector.connect(host='localhost',database='testdb',user='root',password='win448800')
        
             objdata = (wdata[0], wdata[1])
             
@@ -55,20 +55,41 @@ class CustomerDB() :
                 cursor.close()
             return retmsg
 
-                
+          
 
     #writeDB("testdb", "test", ["0007","Somsiri"])
                 
+    ##########################################################################
+    def deleteDB(self, databasename, table) :
+        wdata=self.data
+
+        try:
+            connection = mysql.connector.connect(host='localhost',database='testdb',user='root',password='win448800')
+       
+            objdata = (wdata[0],)
+            
+            sqlQuery = "DELETE FROM "+ table + " WHERE id = %s"
+            
+            cursor = connection.cursor()
+            cursor.execute(sqlQuery, objdata)
+            connection.commit()
+
+        except:
+            retmsg = ["1", "delete error"]
+        else :
+            retmsg = ["0", "delete done"]
+        finally:
+            if (connection.is_connected()):
+                connection.close()
+                cursor.close()
+            return retmsg 
     ##########################################################################
 
     def searchDB(self, databasename, table) :
         wkey = str(self.data[0])
 
         try:
-            connection = mysql.connector.connect(host='localhost',
-                                                 database=databasename,
-                                                 user='root',
-                                                 password='password')
+            connection = mysql.connector.connect(host='localhost',database='testdb',user='root',password='win448800')
             objdata = (wkey,)
             sqlQuery = "select * from "+table+" where id = %s"
             
@@ -96,10 +117,7 @@ class CustomerDB() :
         wkey = str(self.data[1]) #correct here
 
         try:
-            connection = mysql.connector.connect(host='localhost',
-                                                 database=databasename,
-                                                 user='root',
-                                                 password='password')
+            connection = mysql.connector.connect(host='localhost',database='testdb',user='root',password='win448800')
             objdata = (wkey,)
             sqlQuery = "select * from "+table+" where name = %s" #correct here
             
