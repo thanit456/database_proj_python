@@ -106,13 +106,14 @@ class PromotionDB() :
             return retmsg 
     ##########################################################################
 
+    # search by promotionID
     def searchDB(self, databasename, table) :
         wkey = str(self.data[0])
 
         try:
             connection = mysql.connector.connect(host='localhost',database=databasename,user='root',password='win448800')
             objdata = (wkey,)
-            sqlQuery = "select * from "+table+" where id = %s"
+            sqlQuery = "select * from "+table+" where PromotionID = %s"
             
             cursor = connection.cursor()
             cursor.execute(sqlQuery, objdata)
@@ -140,7 +141,7 @@ class PromotionDB() :
         try:
             connection = mysql.connector.connect(host='localhost',database=databasename,user='root',password=password)
             objdata = (wkey,)
-            sqlQuery = "select * from "+table+" where name = %s" #correct here
+            sqlQuery = "select * from "+table + " JOIN product ON ( promotion.ProductID == product.ProductID )" +" where ProductName = %s" #correct here
             
             cursor = connection.cursor()
             cursor.execute(sqlQuery, objdata)
