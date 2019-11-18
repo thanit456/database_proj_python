@@ -7,7 +7,7 @@ class RootWin() :
         root.title("ThankWindow")
         root.geometry('200x150+100+100')
 
-        label_thank = Label(root,text = "THANK YOU")
+        label_thank = Label(root,text = "THANK YOU",font = "Times 14",foreground="red")
 
         button_home = Button(root,text = "home",command = self.backToHome)
 
