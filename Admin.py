@@ -93,8 +93,8 @@ class RentPlaceWin():
                         ['Rented','47261'] ]
             #tempList.sort(key=lambda e: e[1], reverse=True)
 
-            for i, (name, score) in enumerate(tempList, start=1):
-                tree.insert("", "end", values=(i, name, score))
+            for i, (status, owner) in enumerate(tempList, start=1):
+                tree.insert("", "end", values=(i, status, owner))
                 
 
         #scores = tk.Tk() 
@@ -109,7 +109,7 @@ class RentPlaceWin():
             
         tree.grid(row=1, column=0, columnspan=2)
 
-        showScores = tk.Button(self.root, text="Show Detail", width=15, command=show).grid(row=4, column=0)
+        showDetail = tk.Button(self.root, text="Show Detail", width=15, command=show).grid(row=4, column=0)
         BackButton = tk.Button(self.root, text="Back", width=15, command=returnToMenu).grid(row=4, column=1)
 
 
@@ -171,23 +171,128 @@ class PromotionWin():
             self.root.destroy()
             m1 = MenuWin()
 
+        def addPromotion():
+            ap = AddPromotionWin()
+
+        def editPromotion():
+            ep = EditPromotionWin()
+        
+        def searchPromotion():
+            sp = SearchPromotionWin()
+
         header = Label(self.root, text="Promotion")
         header.pack()
         
-        AddButton = Button(self.root, text="ADD")
+        AddButton = Button(self.root, text="ADD",command=addPromotion)
         AddButton.pack(side=TOP)
 
-        EditButton = Button(self.root,text="Edit")
+        EditButton = Button(self.root,text="Edit",command=editPromotion)
         EditButton.pack(side=TOP)
 
-        SearchButton = Button(self.root, text="Search")
+        SearchButton = Button(self.root, text="Search",command=searchPromotion)
         SearchButton.pack(side=TOP)
 
         BackButton = Button(self.root, text="Back",command=backToMenu)
         BackButton.pack(side=TOP)
 
+        self.root.mainloop()
+
+class AddPromotionWin() :
+    def __init__(self):
+        self.root = tk.Tk()
+        self.root.title("Add Promotion")
+        self.root.geometry('460x200')
+
+        self.entryText1 =  StringVar()
+        self.entryText1.set("")
+        self.entryText2 =  StringVar()
+        self.entryText2.set("")
+        self.entryText3 =  StringVar()
+        self.entryText3.set("")
+        self.entryText4 =  StringVar()
+        self.entryText4.set("")
+        self.entryText5 =  StringVar()
+        self.entryText5.set("")
+
+        self.label_product = Label(self.root,text="Product ID :")
+        self.label_start = Label(self.root,text="Start Date :")
+        self.label_end = Label(self.root,text="End Date :")
+        self.label_discount = Label(self.root,text="Discount :")
+        self.label_mem_point = Label(self.root,text="Member point :")
+
+        self.entry_product = Entry(self.root,textvariable=self.entryText1)
+        self.entry_start = Entry(self.root,textvariable=self.entryText2)
+        self.entry_end = Entry(self.root,textvariable=self.entryText3)
+        self.entry_discount = Entry(self.root,textvariable=self.entryText4)
+        self.entry_mem_point = Entry(self.root,textvariable=self.entryText5)
+
+        self.button_ADD = Button(self.root,text="ADD")
+
+        self.label_product.grid(row=0,column=0)
+        self.entry_product.grid(row=0,column=1)
+        self.label_start.grid(row=1,column=0)
+        self.entry_start.grid(row=1,column=1)
+        self.label_end.grid(row=1,column=2)
+        self.entry_end.grid(row=1,column=3)
+        self.label_discount.grid(row=2,column=0)
+        self.entry_discount.grid(row=2,column=1)
+        self.label_mem_point.grid(row=2,column=2)
+        self.entry_mem_point.grid(row=2,column=3)
+
+        self.button_ADD.grid(row=3,column=1)
 
         self.root.mainloop()
 
+class EditPromotionWin() :
+    def __init__(self):
+        self.root = tk.Tk()
+        self.root.title("Edit Promotion")
+        self.root.geometry('300x150')
+
+        self.entryText1 =  StringVar()
+        self.entryText1.set("")
+
+        self.label_promotion = Label(self.root,text="Promotion ID :")
+        self.entry_promotion = Entry(self.root,textvariable=self.entryText1)
+        self.label_promotion.grid(row=0,column=0)
+        self.entry_promotion.grid(row=0,column=1)
+        self.button_delete = Button(self.root,text="Delete")
+        self.button_delete.grid(row=2,column=1)
+
+        self.root.mainloop()
+
+class SearchPromotionWin():
+    def __init__(self):
+        self.root = tk.Tk()
+        self.root.title('Search Promotion')
+
+        def show():
+            tempList = [ ['-','-'], 
+                        ['1232','123344'], 
+                        ['-','-'], 
+                        ['42232','47261'] ]
+            #tempList.sort(key=lambda e: e[1], reverse=True)
+
+            for i, (start, end) in enumerate(tempList, start=1):
+                tree.insert("", "end", values=(i, start, end))
+                
+
+        #scores = tk.Tk() 
+        label = tk.Label(self.root, text="Promotion", font=("Arial",24)).grid(row=0, columnspan=3)
+        # create Treeview with 3 columns
+        cols = ('Promotion ID', 'Start Date', 'End Date', 'Discount', 'Member Point')
+        tree = ttk.Treeview(self.root, columns=cols, show='headings',padding=30)
+        # set column headings
+        for col in cols:
+            tree.column(col,width=100,stretch=NO)
+            tree.heading(col,text=col)
+            
+        tree.grid(row=1, column=0, columnspan=2)
+
+        showDetail = tk.Button(self.root, text="Show Detail", width=15, command=show).grid(row=4, column=0)
+        closeButton = tk.Button(self.root, text="Close", width=15, command=exit).grid(row=4, column=1)
+
+
+        self.root.mainloop()
 
 Mainmenu = AdminWindow()
