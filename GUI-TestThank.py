@@ -1,5 +1,4 @@
 from tkinter import *
-from myDBFunc2019 import *
 
 class RootWin() :
     def __init__(self) :
@@ -17,5 +16,5 @@ class RootWin() :
         root.mainloop()
 
     def backToHome(self) :
-            r1 = ???
-           
+            print("home")
+Mainmenu = RootWin()
