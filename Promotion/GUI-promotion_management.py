@@ -131,6 +131,28 @@ class LookingProductWindow():
         self.label_status=Label(self.cwin, text="")
         self.label_status.grid(row=8, columnspan=2)
 
+class TableWindow():
+    def __init__(self, title):
+        self.cwin = Toplevel()
+        self.cwin.title(title)
+        self.cwin.geometry('350x100+100+100')
+
+
+        # STILL NOT FIX
+        # scores = tk.Tk() 
+        # label = tk.Label(scores, text="High Scores", font=("Arial",30)).grid(row=0, columnspan=3)
+        # # create Treeview with 3 columns
+        # cols = ('Position', 'Name', 'Score')
+        # listBox = ttk.Treeview(scores, columns=cols, show='headings')
+        # # set column headings
+        # for col in cols:
+        #     listBox.heading(col, text=col)    
+        # listBox.grid(row=1, column=0, columnspan=2)
+
+        # showScores = tk.Button(scores, text="Show scores", width=15, command=show).grid(row=4, column=0)
+        # closeButton = tk.Button(scores, text="Close", width=15, command=exit).grid(row=4, column=1)
+
+        
         
 class RegisterWin(PromotionWindow) :
     def __init__(self, title) :
@@ -201,6 +223,22 @@ class DeleteWin(PromotionWindow) :
         aPromotion = Promotion(dataentry)
         retmsg = aPromotion.delete()
         self.label_status.config(text=retmsg[1])
+
+
+class ShowWin(TableWindow):
+    def __init__(self, title):
+        super().__init__(title)
+        self.button_submit.config(text="Show", command=self.showTable)
+        self.button_submit = Button(self.cwin)
+    def showTable(self):
+        self.cwin.title("Shown")
+        dataentry = list()
+        aPromotion = Promotion(dataentry)
+        retmsg = aPromotion.showTable()
+        cols = aPromotion.columns
+        records = aPromotion.records
+
+
 
 
 Mainmenu = RootWin()
