@@ -4,8 +4,12 @@ class RootWin() :
     def __init__(self) :
         root = Tk()
         root.title("Member Main Menu")
-        global user
-        user = "none"
+
+        #global variables
+        global user,branchLists
+        user = ""
+        branchLists = ["B1","B2","B3","B4","B5","B6"]
+
         
         header = Label(root, text="Main Menu")
         header.pack()
@@ -68,41 +72,30 @@ class SearchPromotionWin() :
         self.cwin.title(title)
         self.cwin.geometry('300x200')
 
-        def popupSelect():
-            self.sbwin = Tk()
-            self.sbwin.title("Select Branch Name")
-            self.sbwin.geometry("250x250")
-            self.scrollbar = Scrollbar(self.sbwin)
-            self.scrollbar.pack(side=RIGHT, fill=Y)
-            self.lbl = Label(self.sbwin,text = "A list of Branch Name.")
-            self.lbl.pack(side = TOP)    
-            self.branchList = Listbox(self.sbwin,yscrollcommand = self.scrollbar.set)
+        self.branchName = ""
 
-            for line in range(30):  
-                self.branchList.insert(END, "Number " + str(line)) 
-
-            self.branchList.pack(side = LEFT)  
-            #this button will delete the selected item from the list
-            def getSelect():
-                self.x = self.branchList.get(ANCHOR)
-                print(self.x)
-                self.button_select.config(text=self.x,command = popupSelect)
-                self.sbwin.destroy()
-
-            self.button_selectBranch = Button(self.sbwin, text = "select", command = getSelect)  
-            self.button_selectBranch.pack(side = RIGHT)  
+        self.variable = StringVar()
+        self.variable.set(branchLists[0])
+        self.opt = OptionMenu(self.cwin,self.variable,*branchLists)
+        self.variable.trace_add("write",lambda *args : print(self.variable.get()))
+        
+        #this will get the value of optmenu when submit need to implement to send branchname and productname to DBfunction
+        def callback():
+            self.branchName = self.variable.get()
+            print(self.branchName)
+            self.cwin.destroy()
 
         self.label_branchName = Label(self.cwin,text="Branch Name :")
-        self.button_select = Button(self.cwin,text="Select Branch",command = popupSelect)
+        
         self.label_name = Label(self.cwin,text="Product Name :")
         self.entry_name = Entry(self.cwin)
 
         self.label_branchName.grid(row=0,column=0)
-        self.button_select.grid(row=0,column=1)
+        self.opt.grid(row=0,column=1)
         self.label_name.grid(row=1,column=0)
         self.entry_name.grid(row=1,column=1)
         
-        self.button_submit=Button(self.cwin, text ="SEARCH", command=self.cwin.destroy) #need to add command for search
+        self.button_submit=Button(self.cwin, text ="SEARCH", command=callback) #need to add command for search
         self.button_exit=Button(self.cwin, text="EXIT", command=self.cwin.destroy)
 
         self.button_submit.grid(row=2,column=1)
@@ -116,45 +109,31 @@ class SearchProductWin() :
         self.cwin.title(title)
         self.cwin.geometry('300x200')
 
-        self.x = 0
+        self.branchName = ""
         
         self.label_branch=Label(self.cwin, text="Branch Name :")
         self.label_name=Label(self.cwin, text="Product Name :")
 
-        def popupSelect():
-            self.sbwin = Tk()
-            self.sbwin.title("Select Branch Name")
-            self.sbwin.geometry("250x250")
-            self.scrollbar = Scrollbar(self.sbwin)
-            self.scrollbar.pack(side=RIGHT, fill=Y)
-            self.lbl = Label(self.sbwin,text = "A list of Branch Name.")
-            self.lbl.pack(side = TOP)    
-            self.branchList = Listbox(self.sbwin,yscrollcommand = self.scrollbar.set)
+        self.variable = StringVar()
+        self.variable.set(branchLists[0])
+        self.opt = OptionMenu(self.cwin,self.variable,*branchLists)
+        self.variable.trace_add("write",lambda *args : print(self.variable.get()))
+        
+        #this will get the value of optmenu when submit need to implement to send branchname and productname to DBfunction
+        def callback():
+            self.branchName = self.variable.get()
+            print(self.branchName)
+            self.cwin.destroy()
 
-            for line in range(30):  
-                self.branchList.insert(END, "Number " + str(line)) 
-
-            self.branchList.pack(side = LEFT)  
-            #this button will delete the selected item from the list
-            def getSelect():
-                self.x = self.branchList.get(ANCHOR)
-                print(self.x)
-                self.button_select.config(text=self.x,command = popupSelect)
-                self.sbwin.destroy()
-
-            self.button_selectBranch = Button(self.sbwin, text = "select", command = getSelect)  
-            self.button_selectBranch.pack(side = RIGHT)  
-
-        self.button_select = Button(self.cwin,text="Select Branch",command = popupSelect)
         self.entry_name=Entry(self.cwin)
 
-        self.button_submit=Button(self.cwin, text ="SEARCH", command=self.cwin.destroy) #need to add command for search
+        self.button_submit=Button(self.cwin, text ="SEARCH", command=callback) #need to add command for search
         self.button_exit=Button(self.cwin, text="EXIT", command=self.cwin.destroy)
 
         self.label_branch.grid(row=0,column=0)
         self.label_name.grid(row=1,column=0)
         
-        self.button_select.grid(row=0,column=1)
+        self.opt.grid(row=0,column=1)
         self.entry_name.grid(row=1,column=1)
 
         self.button_submit.grid(row=2,column=1)
