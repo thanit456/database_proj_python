@@ -25,11 +25,10 @@ class LoginWindow() :
         self.entry_password = Entry(self.cwin,textvariable=self.entryText2)
             
         #for testing only need to send memberID to next step
-        #for testing username = 'member' password = 'member' to login
+        #for testing username = '' password = '' to login
         def login():
-            if self.entry_username.get() == "member" and self.entry_password.get() == "member":
-                user = "member"
-                print(user)
+            if self.entry_username.get() == "" and self.entry_password.get() == "":
+                user = ""
                 self.cwin.destroy()
                 m1 = MenuWin()
             else:
@@ -51,26 +50,69 @@ class LoginWindow() :
 
 class MenuWin() :
     def __init__(self) :
-        root = Tk()
-        root.title("Member Main Menu")
+        self.root = Tk()
+        self.root.title("Member Main Menu")
         
-        header = Label(root, text="Main Menu")
-        header.pack()
+        self.header = Label(self.root, text="Main Menu")
+        self.header.pack()
         
-        searchProductButton = Button(root, text="Search Product by Branch Name and  Product Name", command=self.popSearchProductWin)
-        searchProductButton.pack(side=TOP)
+        self.searchProductButton = Button(self.root, text="Search Product by Branch Name and  Product Name", command=self.popSearchProductWin)
+        self.searchProductButton.pack(side=TOP)
 
-        searchPromotionButton = Button(root, text="Search Promotion by Branch Name and Product Name", command=self.popSearchPromotionWin)
-        searchPromotionButton.pack(side=TOP)
+        self.searchPromotionButton = Button(self.root, text="Search Promotion by Branch Name and Product Name", command=self.popSearchPromotionWin)
+        self.searchPromotionButton.pack(side=TOP)
 
-        root.geometry('500x300')
-        root.mainloop()
+        self.showMemberInfoButton = Button(self.root,text="Member Info",command=self.showMemberInfo)
+        self.showMemberInfoButton.pack(side=TOP)
+
+        self.root.geometry('500x300')
+        self.root.mainloop()
         
     def popSearchProductWin(self) :
         s1 = SearchProductWin("Product Search")
     def popSearchPromotionWin(self) :
         s2 = SearchPromotionWin("Promotion Search")
+    def showMemberInfo(self):
+        sm1 = ShowMemInfo("MemberInfo")
+        
 
+class ShowMemInfo() :
+    def __init__(self,title):
+        
+        self.cwin = Toplevel()
+        self.cwin.title(title)
+        self.cwin.geometry('450x200')
+
+        self.label_name = Label(self.cwin,text="Name :")
+        self.label_mem_name = Label(self.cwin,text="Pasit")
+        self.label_lname = Label(self.cwin,text="Last Name :")
+        self.label_mem_lname = Label(self.cwin,text="Laohawarutchai")
+
+        self.label_sdate = Label(self.cwin,text="Start Date :")
+        self.label_mem_sdate = Label(self.cwin,text="30/09/1998")
+        self.label_edate = Label(self.cwin,text="Expired date :")
+        self.label_mem_edate = Label(self.cwin,text="30/09/1999")
+
+        self.button_purchaseHis = Button(self.cwin,text="Show Purchase History",command = self.cwin.destroy) #need to change command to go to history page of that user
+       
+        def backToMenu() :
+           self.cwin.destroy()
+
+        self.button_back = Button(self.cwin,text="Back",command=backToMenu)
+        
+        self.label_name.grid(row=0,column=0)
+        self.label_mem_name.grid(row=0,column=1)
+        self.label_lname.grid(row=0,column=2)
+        self.label_mem_lname.grid(row=0,column=3)
+
+        self.label_sdate.grid(row=1,column=0)
+        self.label_mem_sdate.grid(row=1,column=1)
+        self.label_edate.grid(row=1,column=2)
+        self.label_mem_edate.grid(row=1,column=3)
+
+        self.button_purchaseHis.grid(row=2,column=1)
+        self.button_back.grid(row=3,column=1)
+        self.cwin.mainloop()
 
 class SearchPromotionWin() :
     def __init__(self,title):
@@ -144,6 +186,7 @@ class SearchProductWin() :
 
         self.button_submit.grid(row=2,column=1)
         self.button_exit.grid(row=3, column=1)
+
 
 
 
