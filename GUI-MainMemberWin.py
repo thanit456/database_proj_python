@@ -1,6 +1,50 @@
 from tkinter import *
 
-class RootWin() :
+class LoginWindow() :
+    def __init__ (self,title):
+        self.cwin = Tk()
+        self.cwin.title(title)
+        self.cwin.geometry('300x200')
+
+        self.entryText1 =  StringVar()
+        self.entryText1.set("")
+
+        self.entryText2 =  StringVar()
+        self.entryText2.set("")
+
+        self.label_username = Label(self.cwin,text="Username :")
+        self.label_password = Label(self.cwin,text="Password :")
+        self.label_status = Label(self.cwin,text="")
+
+        self.entry_username = Entry(self.cwin,textvariable=self.entryText1)
+        self.entry_password = Entry(self.cwin,textvariable=self.entryText2)
+            
+        #for testing only need to send memberID to next step
+        #for testing username = 'member' password = 'member' to login
+        def login():
+            if self.entry_username.get() == "member" and self.entry_password.get() == "member":
+                user = "member"
+                print(user)
+                self.cwin.destroy()
+                m1 = MenuWin()
+            else:
+                print("Error")
+                self.entryText1.set("")                
+                self.entryText2.set("")
+                self.label_status.config(text="Incorrect")
+
+        self.button_login = Button(self.cwin,text="Login",command=login) # need to change to real login compare from database
+
+        self.label_username.grid(row=0,column=0)
+        self.entry_username.grid(row=0,column=1)
+        self.label_password.grid(row=1,column=0)
+        self.entry_password.grid(row=1,column=1)
+        self.button_login.grid(row=2,column=1)
+        self.label_status.grid(row=3,column=1)
+        self.cwin.mainloop()
+   
+
+class MenuWin() :
     def __init__(self) :
         root = Tk()
         root.title("Member Main Menu")
@@ -104,4 +148,4 @@ class SearchProductWin() :
 
 
 
-Mainmenu = RootWin()
+Mainmenu = LoginWindow("Login")
