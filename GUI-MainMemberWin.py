@@ -52,34 +52,37 @@ class MenuWin() :
     def __init__(self) :
         self.root = Tk()
         self.root.title("Member Main Menu")
+        self.root.geometry('500x300')
         
         self.header = Label(self.root, text="Main Menu")
         self.header.pack()
+
+        def popSearchProductWin() :
+            s1 = SearchProductWin("Product Search")
+        def popSearchPromotionWin() :
+            s2 = SearchPromotionWin("Promotion Search")
+        def showMemberInfo():
+            self.root.destroy()
+            sm1 = ShowMemInfo("MemberInfo")
         
-        self.searchProductButton = Button(self.root, text="Search Product by Branch Name and  Product Name", command=self.popSearchProductWin)
+        self.searchProductButton = Button(self.root, text="Search Product by Branch Name and  Product Name", command=popSearchProductWin)
         self.searchProductButton.pack(side=TOP)
 
-        self.searchPromotionButton = Button(self.root, text="Search Promotion by Branch Name and Product Name", command=self.popSearchPromotionWin)
+        self.searchPromotionButton = Button(self.root, text="Search Promotion by Branch Name and Product Name", command=popSearchPromotionWin)
         self.searchPromotionButton.pack(side=TOP)
 
-        self.showMemberInfoButton = Button(self.root,text="Member Info",command=self.showMemberInfo)
+        self.showMemberInfoButton = Button(self.root,text="Member Info",command=showMemberInfo)
         self.showMemberInfoButton.pack(side=TOP)
 
-        self.root.geometry('500x300')
         self.root.mainloop()
         
-    def popSearchProductWin(self) :
-        s1 = SearchProductWin("Product Search")
-    def popSearchPromotionWin(self) :
-        s2 = SearchPromotionWin("Promotion Search")
-    def showMemberInfo(self):
-        sm1 = ShowMemInfo("MemberInfo")
+    
         
 
 class ShowMemInfo() :
     def __init__(self,title):
         
-        self.cwin = Toplevel()
+        self.cwin = Tk()
         self.cwin.title(title)
         self.cwin.geometry('450x200')
 
@@ -96,7 +99,8 @@ class ShowMemInfo() :
         self.button_purchaseHis = Button(self.cwin,text="Show Purchase History",command = self.cwin.destroy) #need to change command to go to history page of that user
        
         def backToMenu() :
-           self.cwin.destroy()
+            self.cwin.destroy()
+            m1 = MenuWin()
 
         self.button_back = Button(self.cwin,text="Back",command=backToMenu)
         
