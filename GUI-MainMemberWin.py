@@ -1,5 +1,10 @@
 from tkinter import *
 
+#global variables
+global user,branchLists
+user = ""
+branchLists = ["B1","B2","B3","B4","B5","B6"]
+
 class LoginWindow() :
     def __init__ (self,title):
         self.cwin = Tk()
@@ -48,12 +53,6 @@ class MenuWin() :
     def __init__(self) :
         root = Tk()
         root.title("Member Main Menu")
-
-        #global variables
-        global user,branchLists
-        user = ""
-        branchLists = ["B1","B2","B3","B4","B5","B6"]
-
         
         header = Label(root, text="Main Menu")
         header.pack()
