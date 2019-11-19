@@ -35,13 +35,14 @@ class LoginDB() :
             print(E)
         else :
             retmsg = ["1", "Username Not Found"]
-            print(records[1],wpass)
             if records[1] == wpass :
                 retmsg = ["0", "Correct Password"]
+            else :
+                retmsg = ["1", "Incorrect Password"]
         finally:
-            # if (connection.is_connected()):
-            #     connection.close()
-            #     cursor.close()
+            if (connection.is_connected()):
+                connection.close()
+                cursor.close()
             return retmsg
     
 

@@ -44,9 +44,8 @@ class LoginWindow() :
             
             else :
                 print("Error")
-                self.entryText1.set("")                
+                self.entryText1.set("")               
                 self.entryText2.set("")
-                self.label_status.config(text="Incorrect")
             self.label_status.config(text=retmsg[1])
 
         self.button_login = Button(self.cwin,text="Login",command=checklogin) # need to change to real login compare from database
