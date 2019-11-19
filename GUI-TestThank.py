@@ -1,5 +1,4 @@
 from tkinter import *
-from myDBFunc2019 import *
 
 class RootWin() :
     def __init__(self) :
@@ -8,7 +7,7 @@ class RootWin() :
         root.title("ThankWindow")
         root.geometry('200x150+100+100')
 
-        label_thank = Label(root,text = "THANK YOU")
+        label_thank = Label(root,text = "THANK YOU",font = "Times 14",foreground="red")
 
         button_home = Button(root,text = "home",command = self.backToHome)
 
@@ -17,5 +16,5 @@ class RootWin() :
         root.mainloop()
 
     def backToHome(self) :
-            r1 = ???
-           
+            print("home")
+Mainmenu = RootWin()
