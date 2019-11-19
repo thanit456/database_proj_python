@@ -37,15 +37,69 @@ class LoginWindow() :
                 self.entryText2.set("")
                 self.label_status.config(text="Incorrect")
 
+        def signUp():
+                self.cwin.destroy()
+                su = signUpWin()
+
         self.button_login = Button(self.cwin,text="Login",command=login) # need to change to real login compare from database
+        self.button_register = Button(self.cwin,text="Sign up",command=signUp)
 
         self.label_username.grid(row=0,column=0)
         self.entry_username.grid(row=0,column=1)
         self.label_password.grid(row=1,column=0)
         self.entry_password.grid(row=1,column=1)
-        self.button_login.grid(row=2,column=1)
+        self.button_login.grid(row=2,column=0)
+        self.button_register.grid(row=2,column=1)
         self.label_status.grid(row=3,column=1)
         self.cwin.mainloop()
+
+class signUpWin():
+    def __init__(self):
+        self.cwin = Tk()
+        self
+        self.cwin.title("RegisterWindow")
+        self.cwin.geometry('300x200')
+
+        self.label_fname = Label(self.cwin, text = "First Name :")
+        self.label_lname = Label(self.cwin, text = "Last Name :")
+        self.label_username = Label(self.cwin,text = "username :")
+        self.label_password = Label(self.cwin, text = "password :")
+
+        self.entryTextFn = StringVar()
+        self.entryTextLn = StringVar()
+        self.entryTextUn = StringVar()
+        self.entryTextPass = StringVar()
+
+        
+        self.entry_boxFn=Entry(self.cwin,textvariable = self.entryTextFn)
+        self.entry_boxLn=Entry(self.cwin,textvariable = self.entryTextLn)
+        self.entry_boxUn=Entry(self.cwin,textvariable= self.entryTextUn)
+        self.entry_boxPass=Entry(self.cwin,textvariable = self.entryTextPass,show = "•")
+
+        def printInfo() :
+            print("Member name : " + self.entry_boxFn.get() + " "+ self.entry_boxLn.get()+ "\n" + "Password : " + self.entry_boxPass.get() + " ")
+            self.cwin.destroy()
+            l1 = LoginWindow()
+
+        self.button_OK=Button(self.cwin, text ="Sign up" ,command = printInfo)
+
+        self.label_fname.grid(row=0,column=0)
+        self.label_lname.grid(row=1,column=0)
+        self.label_username.grid(row=2,column=0)
+        self.label_password.grid(row=3,column=0)
+        
+        self.entry_boxFn.grid(row=0,column=1)
+        self.entry_boxLn.grid(row=1,column=1)
+        self.entry_boxUn.grid(row=2,column=1)
+        self.entry_boxPass.grid(row=3,column=1)
+
+        self.button_OK.grid(row=4,column=1)
+
+        self.entry_boxUn.mainloop()
+
+
+        
+
    
 
 class MenuWin() :
