@@ -1,7 +1,0 @@
-{
-    "python.pythonPath": "C:\\Users\\ASUS\\Anaconda3\\python.exe",
-    "python.linting.pylintEnabled": false,
-    "python.linting.mypyEnabled": true,
-    "python.linting.enabled": false,
-    "python.formatting.provider": "autopep8"
-}
