@@ -1,8 +1,6 @@
 from tkinter import *
 from db_promotion_management import *
 
-
-
 class RootWin() :
     def __init__(self) :
         root = Tk()
