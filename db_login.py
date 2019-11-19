@@ -21,7 +21,7 @@ class LoginDB() :
         wpass = str(self.data[1])
 
         try:
-            connection = mysql.connector.connect(host='localhost',database=databaseName,user='root',password='boss1234')
+            connection = mysql.connector.connect(host='localhost',database=databaseName,user='root',password=password)
             objdata = (wkey,)
             sqlQuery = "select * from "+table+" where Username = %s"
             
@@ -44,5 +44,7 @@ class LoginDB() :
                 connection.close()
                 cursor.close()
             return retmsg
+
+
     
 

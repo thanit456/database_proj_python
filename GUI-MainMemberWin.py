@@ -1,4 +1,5 @@
 from tkinter import *
+from db_mainmember import *
 
 #global variables
 global user,branchLists
@@ -22,26 +23,31 @@ class LoginWindow() :
         self.label_status = Label(self.cwin,text="")
 
         self.entry_username = Entry(self.cwin,textvariable=self.entryText1)
-        self.entry_password = Entry(self.cwin,textvariable=self.entryText2)
+        self.entry_password = Entry(self.cwin,textvariable=self.entryText2 ,show = "•")
             
         #for testing only need to send memberID to next step
         #for testing username = '' password = '' to login
-        def login():
-            if self.entry_username.get() == "" and self.entry_password.get() == "":
-                user = ""
+        def checklogin() :
+            dataentry = [self.entryText1.get(), self.entryText2.get()]
+            alogin = Login(dataentry)
+        
+            retmsg = alogin.login()
+
+            if retmsg[0] == "0" :
                 self.cwin.destroy()
                 m1 = MenuWin()
-            else:
+            
+            else :
                 print("Error")
-                self.entryText1.set("")                
+                self.entryText1.set("")               
                 self.entryText2.set("")
-                self.label_status.config(text="Incorrect")
+            self.label_status.config(text=retmsg[1])
 
         def signUp():
                 self.cwin.destroy()
                 su = signUpWin()
 
-        self.button_login = Button(self.cwin,text="Login",command=login) # need to change to real login compare from database
+        self.button_login = Button(self.cwin,text="Login",command=checklogin) # need to change to real login compare from database
         self.button_register = Button(self.cwin,text="Sign up",command=signUp)
 
         self.label_username.grid(row=0,column=0)
@@ -64,6 +70,7 @@ class signUpWin():
         self.label_lname = Label(self.cwin, text = "Last Name :")
         self.label_username = Label(self.cwin,text = "username :")
         self.label_password = Label(self.cwin, text = "password :")
+        self.label_status = Label(self.cwin,text="")
 
         self.entryTextFn = StringVar()
         self.entryTextLn = StringVar()
@@ -80,8 +87,23 @@ class signUpWin():
             print("Member name : " + self.entry_boxFn.get() + " "+ self.entry_boxLn.get()+ "\n" + "Password : " + self.entry_boxPass.get() + " ")
             self.cwin.destroy()
             l1 = LoginWindow()
+        
+        def addMember():
+            dataentry = [self.entryTextFn.get(), self.entryTextLn.get(),self.entryTextUn.get(),self.entryTextPass.get()]
+            aregister = Register(dataentry)
+        
+            retmsg = aregister.register()
 
-        self.button_OK=Button(self.cwin, text ="Sign up" ,command = printInfo)
+            if retmsg[0] == "0" :
+                self.entryTextFn.set("")               
+                self.entryTextLn.set("")
+                self.entryTextUn.set("")
+                self.entryTextPass.set("")
+            else:
+                print('Error')
+            self.label_status.config(text=retmsg[1])
+
+        self.button_OK=Button(self.cwin, text ="Sign up" ,command = addMember)
 
         self.label_fname.grid(row=0,column=0)
         self.label_lname.grid(row=1,column=0)
@@ -96,10 +118,6 @@ class signUpWin():
         self.button_OK.grid(row=4,column=1)
 
         self.entry_boxUn.mainloop()
-
-
-        
-
    
 
 class MenuWin() :

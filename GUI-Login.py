@@ -19,19 +19,7 @@ class LoginWindow() :
 
         self.entry_username = Entry(self.cwin,textvariable=self.entryText1)
         self.entry_password = Entry(self.cwin,textvariable=self.entryText2)
-            
-        #for testing only need to send memberID to next step
-        #for testing username = '' password = '' to login
-        # def login():
-        #     if self.entry_username.get() == "" and self.entry_password.get() == "":
-        #         user = ""
-        #         self.cwin.destroy()
-        #         m1 = MenuWin()
-        #     else:
-        #         print("Error")
-        #         self.entryText1.set("")                
-        #         self.entryText2.set("")
-        #         self.label_status.config(text="Incorrect")
+        
         def checklogin() :
             dataentry = [self.entryText1.get(), self.entryText2.get()]
             alogin = Login(dataentry)
