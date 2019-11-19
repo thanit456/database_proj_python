@@ -3,6 +3,8 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import *
 
+from db_promotion_management  import *
+
 class AdminWindow() :
     def __init__ (self):
         self.cwin = Tk()
@@ -197,36 +199,36 @@ class PromotionWin():
 
         self.root.mainloop()
 
-class AddPromotionWin() :
+class AddPromotionUI() :
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Add Promotion")
         self.root.geometry('460x200')
 
-        self.entryText1 =  StringVar()
-        self.entryText1.set("")
-        self.entryText2 =  StringVar()
-        self.entryText2.set("")
-        self.entryText3 =  StringVar()
-        self.entryText3.set("")
-        self.entryText4 =  StringVar()
-        self.entryText4.set("")
-        self.entryText5 =  StringVar()
-        self.entryText5.set("")
+        self.entry_product_id =  StringVar()
+        self.entry_product_id.set("")
+        self.entry_start_date =  StringVar()
+        self.entry_start_date.set("")
+        self.entry_end_date =  StringVar()
+        self.entry_end_date.set("")
+        self.entry_percentage =  StringVar()
+        self.entry_percentage.set("")
+        self.entry_mempoint =  StringVar()
+        self.entry_mempoint.set("")
 
         self.label_product = Label(self.root,text="Product ID :")
         self.label_start = Label(self.root,text="Start Date :")
         self.label_end = Label(self.root,text="End Date :")
-        self.label_discount = Label(self.root,text="Discount :")
-        self.label_mem_point = Label(self.root,text="Member point :")
+        self.label_percentage = Label(self.root,text="Discount :")
+        self.label_mempoint = Label(self.root,text="Member point :")
 
-        self.entry_product = Entry(self.root,textvariable=self.entryText1)
-        self.entry_start = Entry(self.root,textvariable=self.entryText2)
-        self.entry_end = Entry(self.root,textvariable=self.entryText3)
-        self.entry_discount = Entry(self.root,textvariable=self.entryText4)
-        self.entry_mem_point = Entry(self.root,textvariable=self.entryText5)
+        self.entry_product = Entry(self.root,textvariable=self.entry_product_id)
+        self.entry_start = Entry(self.root,textvariable=self.entry_start_date)
+        self.entry_end = Entry(self.root,textvariable=self.entry_end_date)
+        self.entry_percentage = Entry(self.root,textvariable=self.entry_percentage)
+        self.entry_mempoint = Entry(self.root,textvariable=self.entry_mempoint)
 
-        self.button_ADD = Button(self.root,text="ADD")
+        self.button_ADD = Button(self.root,text="Add new promotion")
 
         self.label_product.grid(row=0,column=0)
         self.entry_product.grid(row=0,column=1)
@@ -234,14 +236,33 @@ class AddPromotionWin() :
         self.entry_start.grid(row=1,column=1)
         self.label_end.grid(row=1,column=2)
         self.entry_end.grid(row=1,column=3)
-        self.label_discount.grid(row=2,column=0)
-        self.entry_discount.grid(row=2,column=1)
-        self.label_mem_point.grid(row=2,column=2)
-        self.entry_mem_point.grid(row=2,column=3)
+        self.label_percentage.grid(row=2,column=0)
+        self.entry_percentage.grid(row=2,column=1)
+        self.label_mempoint.grid(row=2,column=2)
+        self.entry_mempoint.grid(row=2,column=3)
 
         self.button_ADD.grid(row=3,column=1)
 
+class AddPromotionWin(AddPromotionUI):
+    def __init__(self):
+        super().__init__()
+        self.button_ADD.configure(command=self.submitNewPromotion)
         self.root.mainloop()
+
+    def submitNewPromotion(self):
+        # self.cwin.title("Submitted")
+        dataentry = [self.entry_product_id.get(), \
+                    self.entry_start_date.get(), \
+                    self.entry_end_date.get(), \
+                    self.entry_percentage.get(), \
+                    self.entry_mempoint.get()]
+        print(dataentry)
+        aPromotion = Promotion(dataentry)
+        retmsg = aPromotion.write()
+        self.label_status.config(text=retmsg[1])
+       
+    
+       
 
 class EditPromotionWin() :
     def __init__(self):
