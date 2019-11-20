@@ -64,18 +64,18 @@ class RegisterDB() :
             connection = mysql.connector.connect(host='localhost', database=databasename, user='root', password='boss1234')
        
             objdata1 = (wdata[2], wdata[3])
-            # objdata2 = (wdata[0], wdata[1])
-            # table1 = 'member_t'
+            objdata2 = (wdata[0], wdata[1])
+            table1 = 'member_t'
             
             sqlQuery1 = "insert into "+table+" (Username, Password) " \
                                "values (%s,%s)"
             # sqlQuery3 = "insert into member_t values (%s,%s,'19/11/2562','19/11/2563',0)"
-            # sqlQuery2 = "insert into "+table1+" (FirstName, LastName, StartDate, ExpireDate, MemberPoints) " \
-            #                    "values (%s,%s,'19/11/2562','19/11/2563',0)"
+            sqlQuery2 = "insert into "+table1+" (MemberIDNumber, FirstName, LastName, StartDate, ExpireDate, MemberPoints) " \
+                                "values ('1234567891011',%s,%s,'2019-11-20','2020-11-20',0)"
             
             cursor = connection.cursor()
             cursor.execute(sqlQuery1, objdata1)
-            #cursor.execute(sqlQuery2, objdata2)
+            cursor.execute(sqlQuery2, objdata2)
             
             connection.commit()
 
