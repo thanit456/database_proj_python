@@ -69,7 +69,6 @@ class RegisterDB() :
             
             sqlQuery1 = "insert into "+table+" (Username, Password) " \
                                "values (%s,%s)"
-            # sqlQuery3 = "insert into member_t values (%s,%s,'19/11/2562','19/11/2563',0)"
             sqlQuery2 = "insert into "+table1+" (MemberIDNumber, FirstName, LastName, StartDate, ExpireDate, MemberPoints) " \
                                 "values ('1234567891011',%s,%s,'2019-11-20','2020-11-20',0)"
             

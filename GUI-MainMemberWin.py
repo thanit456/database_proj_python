@@ -24,9 +24,7 @@ class LoginWindow() :
 
         self.entry_username = Entry(self.cwin,textvariable=self.entryText1)
         self.entry_password = Entry(self.cwin,textvariable=self.entryText2 ,show = "•")
-            
-        #for testing only need to send memberID to next step
-        #for testing username = '' password = '' to login
+
         def checklogin() :
             dataentry = [self.entryText1.get(), self.entryText2.get()]
             alogin = Login(dataentry)
@@ -136,6 +134,9 @@ class MenuWin() :
         def showMemberInfo():
             self.root.destroy()
             sm1 = ShowMemInfo("MemberInfo")
+        def logout():
+            self.root.destroy()
+            lg = LoginWindow()
         
         self.searchProductButton = Button(self.root, text="Search Product by Branch Name and  Product Name", command=popSearchProductWin)
         self.searchProductButton.pack(side=TOP)
@@ -145,6 +146,9 @@ class MenuWin() :
 
         self.showMemberInfoButton = Button(self.root,text="Member Info",command=showMemberInfo)
         self.showMemberInfoButton.pack(side=TOP)
+
+        self.LogoutButton = Button(self.root,text="Log out",command=logout)
+        self.LogoutButton.pack(side=TOP)
 
         self.root.mainloop()
         
