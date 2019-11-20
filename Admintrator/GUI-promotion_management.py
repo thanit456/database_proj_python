@@ -159,11 +159,13 @@ class RegisterWin(PromotionWindow) :
         
     def submitNewPromotion(self) :
         self.cwin.title("Submitted")
-        dataentry = [self.entry_productid.get(), 
+        dataentry = [
                     self.entry_startdate.get(),
                     self.entry_enddate.get(),
                     self.entry_percentage.get(),
-                    self.entry_memberpointcost.get()]
+                    self.entry_memberpointcost.get(),
+                    self.entry_productid.get()
+                    ]
         aPromotion = Promotion(dataentry)
         retmsg = aPromotion.write()
         self.label_status.config(text=retmsg[1])

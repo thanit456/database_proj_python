@@ -40,6 +40,7 @@ CREATE TABLE `bkeeps` (
 
 LOCK TABLES `bkeeps` WRITE;
 /*!40000 ALTER TABLE `bkeeps` DISABLE KEYS */;
+INSERT INTO `bkeeps` VALUES ('p00001','br0001',10),('p00001','br0002',15),('p00001','br0003',20),('p00002','br0001',5),('p00002','br0002',7),('p00002','br0003',12),('p00003','br0001',20),('p00003','br0002',13),('p00004','br0001',8),('p00005','br0002',18),('p00006','br0003',22);
 /*!40000 ALTER TABLE `bkeeps` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -69,7 +70,7 @@ CREATE TABLE `branch` (
 
 LOCK TABLES `branch` WRITE;
 /*!40000 ALTER TABLE `branch` DISABLE KEYS */;
-INSERT INTO `branch` VALUES ('0000001','branchA','18/329 blah blah','0994812552',NULL,'2019-11-12');
+INSERT INTO `branch` VALUES ('br0001','Siam Square','991 Rama I Rd, Pathum Wan, Pathum Wan District, Bangkok 10330','026108000',NULL,NULL),('br0002','Samyan','Samyan address','021111111',NULL,NULL),('br0003','Chula','Chula address','022222222',NULL,NULL);
 /*!40000 ALTER TABLE `branch` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -102,6 +103,7 @@ CREATE TABLE `contract1` (
 
 LOCK TABLES `contract1` WRITE;
 /*!40000 ALTER TABLE `contract1` DISABLE KEYS */;
+INSERT INTO `contract1` VALUES ('ct0001','rp0003',20000.00,'monthly','1231231231231','2019-11-19','2020-03-19'),('ct0002','rp0004',24000.00,'monthly','1234123412341','2019-11-19','2020-02-19'),('ct0003','rp0007',900.00,'daily','1234512345123','2019-11-19','2019-12-19'),('ct0004','rp0008',3000.00,'onetime','1234512345123','2019-11-19','2019-12-03');
 /*!40000 ALTER TABLE `contract1` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -128,6 +130,7 @@ CREATE TABLE `contract2` (
 
 LOCK TABLES `contract2` WRITE;
 /*!40000 ALTER TABLE `contract2` DISABLE KEYS */;
+INSERT INTO `contract2` VALUES ('1231231231231','X',NULL,'0991111111'),('1234123412341','Y',NULL,'0992222222'),('1234512345123','Z',NULL,'0993333333');
 /*!40000 ALTER TABLE `contract2` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -217,6 +220,7 @@ CREATE TABLE `employee` (
 
 LOCK TABLES `employee` WRITE;
 /*!40000 ALTER TABLE `employee` DISABLE KEYS */;
+INSERT INTO `employee` VALUES ('emp0001','br0001',NULL,'emp0005','Too','Thanit',NULL,NULL,'Lead','Engineer'),('emp0002','br0001',NULL,'emp0005','Win','Pasit',NULL,NULL,'Manager','Marketing'),('emp0003','br0001',NULL,'emp0001','Boss','Wutipong',NULL,NULL,'Computer','Engineer'),('emp0004','br0002',NULL,'emp0001','Boom','Kasidit',NULL,NULL,NULL,'Engineer'),('emp0005','br0003',NULL,NULL,'Pon','Phatcharapon',NULL,NULL,'Manager','Branch Manager');
 /*!40000 ALTER TABLE `employee` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -240,7 +244,7 @@ CREATE TABLE `importid` (
 
 LOCK TABLES `importid` WRITE;
 /*!40000 ALTER TABLE `importid` DISABLE KEYS */;
-INSERT INTO `importid` VALUES ('123','2019-11-12 14:01:17');
+INSERT INTO `importid` VALUES ('123','2019-11-12 14:01:17'),('im0001','2019-11-19 14:07:43');
 /*!40000 ALTER TABLE `importid` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -350,6 +354,8 @@ CREATE TABLE `member_t` (
   `StartDate` date NOT NULL,
   `ExpireDate` date NOT NULL,
   `MemberPoints` int(11) NOT NULL DEFAULT '0',
+  `UserName` varchar(20) NOT NULL,
+  `Password` varchar(45) NOT NULL,
   PRIMARY KEY (`MemberIDNumber`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -360,7 +366,7 @@ CREATE TABLE `member_t` (
 
 LOCK TABLES `member_t` WRITE;
 /*!40000 ALTER TABLE `member_t` DISABLE KEYS */;
-INSERT INTO `member_t` VALUES ('1200101809391','Phatcharapon','Jumruspun','2019-11-12','2019-11-12',0);
+INSERT INTO `member_t` VALUES ('mb0001','Boss','Thadchet','2019-11-19','2020-11-19',0,'BossKungz','p@ssw0rd');
 /*!40000 ALTER TABLE `member_t` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -374,7 +380,7 @@ DROP TABLE IF EXISTS `memberinvoice`;
 CREATE TABLE `memberinvoice` (
   `CustomerInvoiceID` varchar(15) NOT NULL,
   `DateTimePurchased` datetime NOT NULL,
-  `TotalPrice` decimal(8,2) NOT NULL,
+  `TotalPrice` decimal(8,2) DEFAULT NULL,
   `MemberIDNumber` varchar(13) NOT NULL,
   `BranchID` varchar(15) NOT NULL,
   PRIMARY KEY (`CustomerInvoiceID`),
@@ -392,6 +398,7 @@ CREATE TABLE `memberinvoice` (
 
 LOCK TABLES `memberinvoice` WRITE;
 /*!40000 ALTER TABLE `memberinvoice` DISABLE KEYS */;
+INSERT INTO `memberinvoice` VALUES ('mi0001','2019-11-19 14:03:23',NULL,'mb0001','br0001');
 /*!40000 ALTER TABLE `memberinvoice` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -475,6 +482,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
+INSERT INTO `product` VALUES ('p00001','sp0001','Toothbrush','Magical toothbrush!',99.00),('p00002','sp0001','Toothpaste','Mint flavor',139.00),('p00003','sp0001','Soap','Liquid soap!',169.00),('p00004','sp0002','Mama cup',NULL,15.00),('p00005','sp0002','Lays','Potato chip',30.00),('p00006','sp0003','Table salt',NULL,29.00),('p00007','sp0003','Sugar (cube.)','Cube',150.00),('p00008','sp0003','Spice',NULL,49.00),('p00009','sp0004','Plate',NULL,199.00),('p00010','sp0004','Cup','Ceramic!',99.00);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -507,6 +515,7 @@ CREATE TABLE `promotion` (
 
 LOCK TABLES `promotion` WRITE;
 /*!40000 ALTER TABLE `promotion` DISABLE KEYS */;
+INSERT INTO `promotion` VALUES ('pr0001','2019-11-19','2019-11-26',10.00,0,'p00001');
 /*!40000 ALTER TABLE `promotion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -532,6 +541,7 @@ CREATE TABLE `rentableplace` (
 
 LOCK TABLES `rentableplace` WRITE;
 /*!40000 ALTER TABLE `rentableplace` DISABLE KEYS */;
+INSERT INTO `rentableplace` VALUES ('rp0001','br0001'),('rp0002','br0001'),('rp0003','br0001'),('rp0004','br0002'),('rp0005','br0002'),('rp0006','br0002'),('rp0007','br0003'),('rp0008','br0003');
 /*!40000 ALTER TABLE `rentableplace` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -586,6 +596,7 @@ CREATE TABLE `supplier` (
 
 LOCK TABLES `supplier` WRITE;
 /*!40000 ALTER TABLE `supplier` DISABLE KEYS */;
+INSERT INTO `supplier` VALUES ('sp0001','Supplier01','KunA','021111111','a@gmail.com',NULL,NULL),('sp0002','Supplier02','KunB','021111112','b@gmail.com','https://b.com',NULL),('sp0003','Supplier03','KunC','021111113','c@gmail.com',NULL,'Bangkok 10500'),('sp0004','Supplier04','KunD','021111114','d@gmail.com','https://d.net','Chonburi 20000');
 /*!40000 ALTER TABLE `supplier` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -615,6 +626,7 @@ CREATE TABLE `warehouse` (
 
 LOCK TABLES `warehouse` WRITE;
 /*!40000 ALTER TABLE `warehouse` DISABLE KEYS */;
+INSERT INTO `warehouse` VALUES ('wh0001','WarehouseA1','Bangkok 10110','02111111',NULL,'2019-11-19');
 /*!40000 ALTER TABLE `warehouse` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -655,4 +667,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-18 19:53:08
+-- Dump completed on 2019-11-20  9:57:08

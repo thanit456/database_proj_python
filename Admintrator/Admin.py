@@ -124,7 +124,7 @@ class BranchDetailWin():
         self.root.geometry('300x200')
 
         self.label_BranchId = Label(self.root,text="Branch ID :")
-        self.label__db_BranchId = Label(self.root,text=("...."*5))
+        self.label_db_BranchId = Label(self.root,text=("...."*5))
         self.label_Name = Label(self.root,text="Name :")
         self.label_db_Name = Label(self.root,text="......")
 
@@ -145,7 +145,7 @@ class BranchDetailWin():
         self.button_back = Button(self.root,text="Back",command=backToMenu)
         
         self.label_BranchId.grid(row=0,column=0)
-        self.label__db_BranchId.grid(row=0,column=1)
+        self.label_db_BranchId.grid(row=0,column=1)
         self.label_Name.grid(row=1,column=0)
         self.label_db_Name.grid(row=1,column=1)
 
@@ -205,16 +205,16 @@ class AddPromotionUI() :
         self.root.title("Add Promotion")
         self.root.geometry('460x200')
 
-        self.entry_product_id =  StringVar()
-        self.entry_product_id.set("")
-        self.entry_start_date =  StringVar()
-        self.entry_start_date.set("")
-        self.entry_end_date =  StringVar()
-        self.entry_end_date.set("")
-        self.entry_percentage =  StringVar()
-        self.entry_percentage.set("")
-        self.entry_mempoint =  StringVar()
-        self.entry_mempoint.set("")
+        self.text_product_id =  StringVar()
+        self.text_product_id.set("")
+        self.text_start_date =  StringVar()
+        self.text_start_date.set("")
+        self.text_end_date =  StringVar()
+        self.text_end_date.set("")
+        self.text_percentage =  StringVar()
+        self.text_percentage.set("")
+        self.text_mempoint =  StringVar()
+        self.text_mempoint.set("")
 
         self.label_product = Label(self.root,text="Product ID :")
         self.label_start = Label(self.root,text="Start Date :")
@@ -222,20 +222,20 @@ class AddPromotionUI() :
         self.label_percentage = Label(self.root,text="Discount :")
         self.label_mempoint = Label(self.root,text="Member point :")
 
-        self.entry_product = Entry(self.root,textvariable=self.entry_product_id)
-        self.entry_start = Entry(self.root,textvariable=self.entry_start_date)
-        self.entry_end = Entry(self.root,textvariable=self.entry_end_date)
-        self.entry_percentage = Entry(self.root,textvariable=self.entry_percentage)
-        self.entry_mempoint = Entry(self.root,textvariable=self.entry_mempoint)
+        self.entry_product_id = Entry(self.root,textvariable=self.text_product_id)
+        self.entry_start_date = Entry(self.root,textvariable=self.text_start_date)
+        self.entry_end_date = Entry(self.root,textvariable=self.text_end_date)
+        self.entry_percentage = Entry(self.root,textvariable=self.text_percentage)
+        self.entry_mempoint = Entry(self.root,textvariable=self.text_mempoint)
 
         self.button_ADD = Button(self.root,text="Add new promotion")
 
         self.label_product.grid(row=0,column=0)
-        self.entry_product.grid(row=0,column=1)
+        self.entry_product_id.grid(row=0,column=1)
         self.label_start.grid(row=1,column=0)
-        self.entry_start.grid(row=1,column=1)
+        self.entry_start_date.grid(row=1,column=1)
         self.label_end.grid(row=1,column=2)
-        self.entry_end.grid(row=1,column=3)
+        self.entry_end_date.grid(row=1,column=3)
         self.label_percentage.grid(row=2,column=0)
         self.entry_percentage.grid(row=2,column=1)
         self.label_mempoint.grid(row=2,column=2)
@@ -251,15 +251,17 @@ class AddPromotionWin(AddPromotionUI):
 
     def submitNewPromotion(self):
         # self.cwin.title("Submitted")
-        dataentry = [self.entry_product_id.get(), \
-                    self.entry_start_date.get(), \
-                    self.entry_end_date.get(), \
-                    self.entry_percentage.get(), \
-                    self.entry_mempoint.get()]
-        print(dataentry)
+        dataentry = [
+                    self.entry_start_date.get(), 
+                    self.entry_end_date.get(), 
+                    self.entry_percentage.get(),
+                    self.entry_mempoint.get(), 
+                    self.entry_product_id.get()
+                    ]
+        print('Entry: ',dataentry)
         aPromotion = Promotion(dataentry)
         retmsg = aPromotion.write()
-        self.label_status.config(text=retmsg[1])
+        # self.label_status.config(text=retmsg[1])
        
     
        

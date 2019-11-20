@@ -8,15 +8,6 @@ password = '093128156'
 
 # global variable
 countPromotionID = 1
-SIZE_PROMOTION_ID = 4
-
-def getPromotionID():
-    global countPromotionID
-    if len(countPromotionID) > SIZE_PROMOTION_ID:
-        return
-    promotionID = ('0' * (SIZE_PROMOTION_ID - len(countPromotionID)) + str(countPromotionID))
-    countPromotionID += 1
-    return promotionID
 
 class Promotion() :
     def __init__(self, data) :
@@ -53,21 +44,26 @@ class PromotionDB() :
 
     def writeDB(self, databasename, table) :
         wdata=self.data
+        global countPromotionID
+
 
         try:
             connection = mysql.connector.connect(host='localhost',database=databasename,user='root',password=password)
        
-            objdata = (wdata[0], wdata[1], wdata[2], wdata[3], wdata[4])
-            
-            # increment and get promotionID 
-            promotionID = getPromotionID()
+            print('Can Connect')
 
-            sqlQuery = "insert into "+table+" (PromotionID, ProductID, StartDate, EndDate, Percentage, MemberPointCost) " \
-                               "values ( "+ promotionID +", %s, %s, %s, %.2f, %d)"
-            
+            print('PromotionID : ' + str(countPromotionID))    
+            countPromotionID += 1  
+
+            objdata = (wdata[0], wdata[1], wdata[2], wdata[3], wdata[4])
+                  
+            sqlQuery = "insert into " + table +  " values ( '"+ str(countPromotionID) + "', '" + wdata[0] + \
+                        "', '" + wdata[1] + "', " + wdata[2] + ", " + wdata[3] + ", '" + wdata[4]  + "')"
+            print(sqlQuery)
+
             cursor = connection.cursor()
-            cursor.execute(sqlQuery, objdata)
-            
+            cursor.execute(sqlQuery)
+
             connection.commit()
             
 
