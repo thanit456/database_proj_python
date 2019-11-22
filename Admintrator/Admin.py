@@ -177,7 +177,7 @@ class PromotionWin():
             ap = AddPromotionWin()
 
         def editPromotion():
-            ep = EditPromotionWin()
+            ep = EditOrDeletePromotionWin()
         
         def searchPromotion():
             sp = SearchPromotionWin()
@@ -229,7 +229,7 @@ class AddPromotionWin() :
         self.entry_percentage = Entry(self.root,textvariable=self.text_percentage)
         self.entry_mempoint = Entry(self.root,textvariable=self.text_mempoint)
 
-        self.button_ADD = Button(self.root,text="Add new promotion")
+        self.button_ADD = Button(self.root,text="Submit")
 
         self.label_product.grid(row=0,column=0)
         self.entry_product_id.grid(row=0,column=1)
@@ -262,7 +262,7 @@ class AddPromotionWin() :
         # self.label_status.config(text=retmsg[1])
 
     
-class EditPromotionWin() :
+class EditOrDeletePromotionWin() :
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Edit Promotion")
@@ -275,11 +275,93 @@ class EditPromotionWin() :
         self.entry_promotion = Entry(self.root,textvariable=self.entryText1)
         self.label_promotion.grid(row=0,column=0)
         self.entry_promotion.grid(row=0,column=1)
+        self.button_edit = Button(self.root, text="Edit", command=self.goEditPromotion)
+        self.button_edit.grid(row=2, column=1)
         self.button_delete = Button(self.root,text="Delete")
-        self.button_delete.grid(row=2,column=1)
+        self.button_delete.grid(row=3,column=1)
+        
 
         self.root.mainloop()
+    def deletePromotionByID(self):
+        dataentry = [self.entry_promotion.get()]
 
+
+    def goEditPromotion(self):
+        editwin = EditPromotionWin()
+    # # self.cwin.title("Submitted")
+    #     dataentry = [self.entry_promotion.get()]
+    #     aPromotion = Promotion(dataentry)
+    #     retmsg = aPromotion.write()
+        
+        # self.label_status.config(text=retmsg[1])
+class EditPromotionWin() :
+    def __init__(self):
+        self.root = tk.Tk()
+        self.root.title("Edit Promotion")
+        self.root.geometry('600x200')
+
+        self.text_promotion = StringVar()
+        self.text_promotion.set("")
+        self.text_product_id =  StringVar()
+        self.text_product_id.set("")
+        self.text_start_date =  StringVar()
+        self.text_start_date.set("")
+        self.text_end_date =  StringVar()
+        self.text_end_date.set("")
+        self.text_percentage =  StringVar()
+        self.text_percentage.set("")
+        self.text_mempoint =  StringVar()
+        self.text_mempoint.set("")
+
+        self.label_promotion = Label(self.root, text="Promotion ID :")
+        self.label_product = Label(self.root,text="Product ID :")
+        self.label_start = Label(self.root,text="Start Date :")
+        self.label_end = Label(self.root,text="End Date :")
+        self.label_percentage = Label(self.root,text="Discount :")
+        self.label_mempoint = Label(self.root,text="Member point :")
+
+        self.entry_promotion = Entry(self.root,textvariable=self.text_promotion)
+        self.entry_product_id = Entry(self.root,textvariable=self.text_product_id)
+        self.entry_start_date = Entry(self.root,textvariable=self.text_start_date)
+        self.entry_end_date = Entry(self.root,textvariable=self.text_end_date)
+        self.entry_percentage = Entry(self.root,textvariable=self.text_percentage)
+        self.entry_mempoint = Entry(self.root,textvariable=self.text_mempoint)
+
+        self.button_EDIT = Button(self.root,text="Submit")
+
+        self.label_promotion.grid(row=0,column=0)
+        self.entry_promotion.grid(row=0,column=1)
+        self.label_product.grid(row=0,column=2)
+        self.entry_product_id.grid(row=0,column=3)
+        self.label_start.grid(row=1,column=0)
+        self.entry_start_date.grid(row=1,column=1)
+        self.label_end.grid(row=1,column=2)
+        self.entry_end_date.grid(row=1,column=3)
+        self.label_percentage.grid(row=2,column=0)
+        self.entry_percentage.grid(row=2,column=1)
+        self.label_mempoint.grid(row=2,column=2)
+        self.entry_mempoint.grid(row=2,column=3)
+
+        self.button_EDIT.grid(row=3,column=2)
+
+        self.button_EDIT.configure(command=self.submitEditPromotion)
+        self.root.mainloop()
+
+    def submitEditPromotion(self):
+        # self.cwin.title("Submitted")
+        dataentry = [
+                    self.entry_promotion.get(),
+                    self.entry_start_date.get(), 
+                    self.entry_end_date.get(), 
+                    self.entry_percentage.get(),
+                    self.entry_mempoint.get(), 
+                    self.entry_product_id.get()
+                    ]
+        aPromotion = Promotion(dataentry)
+        retmsg = aPromotion.edit()
+        # self.label_status.config(text=retmsg[1])
+
+    
 class SearchPromotionWin():
     def __init__(self):
         self.root = tk.Tk()
@@ -290,13 +372,6 @@ class SearchPromotionWin():
             leaf_nodes = tree.get_children()
             for i in leaf_nodes:
                 tree.delete(i)
-            # tempList = [ ['-','-'], 
-            #             ['1232','123344'], 
-            #             ['-','-'], 
-            #             ['42232','47261'] ]
-            #tempList.sort(key=lambda e: e[1], reverse=True)
-            print('Query : ', end='')
-            print(self.queryList)
             for i, (promotionid, startdate, enddate, percent, mempoint, productid) in enumerate(self.queryList, start=1):
                 tree.insert("", "end", values=(i, promotionid, startdate, enddate, percent, mempoint, productid))
                 

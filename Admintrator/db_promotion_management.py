@@ -31,6 +31,8 @@ class Promotion() :
     def showTable(self):
         return self.promotionDataObj.showTable(databaseName, tableName)
 
+    def edit(self):
+        return self.promotionDataObj.editDB(databaseName, tableName)
     
     
 
@@ -80,7 +82,44 @@ class PromotionDB() :
           
 
     #writeDB("testdb", "test", ["0007","Somsiri"])
-                
+    ##########################################################################
+    def editDB(self, databasename, table) :
+
+        try:
+            connection = mysql.connector.connect(host='localhost',database=databasename,user='root',password=password)
+       
+            print('can connect')
+           
+            wdata = self.data
+            objdata = (wdata[0], wdata[1], wdata[2], wdata[3], wdata[4], wdata[5])
+                  
+            print('object : ',objdata)
+
+            sqlQuery = 'update promotion' + \
+                    ' set StartDate = \'' + wdata[1] + "'" + \
+                    ', EndDate = \'' + wdata[2]  + "'" + \
+                    ', Percentage = ' + wdata[3]  + \
+                    ', MemberPointCost = ' + wdata[4] + \
+                    ', ProductID = \'' + wdata[5] + '\' ' + \
+                    'where PromotionID = \'' + wdata[0] + "'"
+
+            print(sqlQuery)
+
+            cursor = connection.cursor()
+            cursor.execute(sqlQuery)
+
+            connection.commit()
+            
+
+        except:
+            retmsg = ["1", "writing error"]
+        else :
+            retmsg = ["0", "writing done"]
+        finally:
+            if (connection.is_connected()):
+                connection.close()
+                cursor.close()
+            return retmsg
     ##########################################################################
     def deleteDB(self, databasename, table) :
         wdata=self.data
