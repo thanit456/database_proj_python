@@ -182,6 +182,7 @@ class PromotionWin():
         def searchPromotion():
             sp = SearchPromotionWin()
 
+
         header = Label(self.root, text="Promotion")
         header.pack()
         
@@ -199,7 +200,7 @@ class PromotionWin():
 
         self.root.mainloop()
 
-class AddPromotionUI() :
+class AddPromotionWin() :
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Add Promotion")
@@ -243,9 +244,6 @@ class AddPromotionUI() :
 
         self.button_ADD.grid(row=3,column=1)
 
-class AddPromotionWin(AddPromotionUI):
-    def __init__(self):
-        super().__init__()
         self.button_ADD.configure(command=self.submitNewPromotion)
         self.root.mainloop()
 
@@ -262,10 +260,8 @@ class AddPromotionWin(AddPromotionUI):
         aPromotion = Promotion(dataentry)
         retmsg = aPromotion.write()
         # self.label_status.config(text=retmsg[1])
-       
-    
-       
 
+    
 class EditPromotionWin() :
     def __init__(self):
         self.root = tk.Tk()
@@ -288,22 +284,27 @@ class SearchPromotionWin():
     def __init__(self):
         self.root = tk.Tk()
         self.root.title('Search Promotion')
+        self.queryList = self.queryPromotion()
 
         def show():
-            tempList = [ ['-','-'], 
-                        ['1232','123344'], 
-                        ['-','-'], 
-                        ['42232','47261'] ]
+            leaf_nodes = tree.get_children()
+            for i in leaf_nodes:
+                tree.delete(i)
+            # tempList = [ ['-','-'], 
+            #             ['1232','123344'], 
+            #             ['-','-'], 
+            #             ['42232','47261'] ]
             #tempList.sort(key=lambda e: e[1], reverse=True)
-
-            for i, (start, end) in enumerate(tempList, start=1):
-                tree.insert("", "end", values=(i, start, end))
+            print('Query : ', end='')
+            print(self.queryList)
+            for i, (promotionid, startdate, enddate, percent, mempoint, productid) in enumerate(self.queryList, start=1):
+                tree.insert("", "end", values=(i, promotionid, startdate, enddate, percent, mempoint, productid))
                 
 
         #scores = tk.Tk() 
         label = tk.Label(self.root, text="Promotion", font=("Arial",24)).grid(row=0, columnspan=3)
         # create Treeview with 3 columns
-        cols = ('Promotion ID', 'Start Date', 'End Date', 'Discount', 'Member Point')
+        cols = ('Promotion ID', 'Start Date', 'End Date', 'Discount', 'Member Point', 'ProductID')
         tree = ttk.Treeview(self.root, columns=cols, show='headings',padding=30)
         # set column headings
         for col in cols:
@@ -317,5 +318,12 @@ class SearchPromotionWin():
 
 
         self.root.mainloop()
+    def queryPromotion(self):
+    # self.cwin.title("Submitted")
+        dataentry = list()
+        aPromotion = Promotion(dataentry)
+        return aPromotion.showTable()
+        
+        # self.label_status.config(text=retmsg[1])
 
 Mainmenu = AdminWindow()

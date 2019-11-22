@@ -161,32 +161,52 @@ class PromotionDB() :
                 cursor.close()
             return retmsg
 
+    # def showTable(self, databasename, table):
+    #     try:
+    #         connection = mysql.connector.connect(host='localhost', database=databasename, user='root', password=password)
+    #         query_cols = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS  \
+    #                 WHERE TABLE_NAME = '" + table + "' " + \
+    #                 "ORDER BY ORDINAL_POSITION"
+    #         cols_cursor = connection.cursor()
+    #         cols_cursor.execute(query_cols)
+    #         self.cols = cols_cursor.fetchall()
+
+    #         sqlQuery = "select * from " + table
+    #         cursor = connection.cursor()
+    #         cursor.execute(sqlQuery)
+    #         self.records = cursor.fetchall()
+            
+    #     except:
+    #         retmsg  = ['1', 'Error']
+    #     else:
+    #         retmsg = ['1', 'Not Found']
+    #         if self.cols[1] != '':
+    #             retmsg = ['0', 'Found']        
+    #     finally:
+    #         if (connection.is_connected()):
+    #             connection.close()
+    #             cursor.close()
+    #         return retmsg
     def showTable(self, databasename, table):
         try:
             connection = mysql.connector.connect(host='localhost', database=databasename, user='root', password=password)
-            query_cols = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS  \
-                    WHERE TABLE_NAME = '" + table + "' " + \
-                    "ORDER BY ORDINAL_POSITION"
-            cols_cursor = connection.cursor()
-            cols_cursor.execute(query_cols)
-            self.cols = cols_cursor.fetchall()
-
             sqlQuery = "select * from " + table
             cursor = connection.cursor()
             cursor.execute(sqlQuery)
             self.records = cursor.fetchall()
             
-        except:
-            retmsg  = ['1', 'Error']
-        else:
-            retmsg = ['1', 'Not Found']
-            if self.cols[1] != '':
-                retmsg = ['0', 'Found']        
+        # except:
+        #     retmsg  = ['1', 'Error']
+        # else:
+        #     retmsg = ['1', 'Not Found']
+        #     if self.cols[1] != '':
+        #         retmsg = ['0', 'Found']        
         finally:
             if (connection.is_connected()):
                 connection.close()
                 cursor.close()
-            return retmsg
+            return self.records
+
 
              
         
