@@ -7,7 +7,8 @@ class LoginWindow() :
     def __init__ (self):
         self.cwin = Tk()
         self.cwin.title("Login")
-        self.cwin.geometry('315x85')
+        self.cwin.geometry('300x160')
+        self.cwin.resizable(0,0)
 
         #function
         def checklogin() :
@@ -41,22 +42,22 @@ class LoginWindow() :
         self.entryText2.set("")
         self.label_username = Label(self.cwin,text="Username :")
         self.label_password = Label(self.cwin,text="Password :")
-        self.label_status = Label(self.cwin,text="")
+        self.label_status = Label(self.cwin,text="",foreground="red")
         self.entry_username = Entry(self.cwin,textvariable=self.entryText1)
         self.entry_password = Entry(self.cwin,textvariable=self.entryText2 ,show = "•")
-        self.button_login = Button(self.cwin,text="Login",command=checklogin) # need to change to real login compare from database
+        self.button_login = Button(self.cwin,text=" Login ",command=checklogin) # need to change to real login compare from database
         self.button_register = Button(self.cwin,text="Sign up",command=signUp)
         self.button_back = Button(self.cwin,text=" Back",command=back)
 
         #put every components in window
-        self.label_username.grid(row=0,column=0)
-        self.entry_username.grid(row=0,column=1)
-        self.label_password.grid(row=1,column=0)
-        self.entry_password.grid(row=1,column=1)
-        self.button_login.grid(row=2,column=1)
-        self.button_register.grid(row=2,column=0)
-        self.button_back.grid(row=2,column=2)
-        self.label_status.grid(row=3,column=1)
+        self.label_username.place(x=40,y=25)
+        self.entry_username.place(x=110,y=25)
+        self.label_password.place(x=40,y=50)
+        self.entry_password.place(x=110,y=50)
+        self.button_login.place(x=160,y=80)
+        self.button_register.place(x=185,y=120)
+        self.button_back.place(x=240,y=120)
+        self.label_status.place(x=40,y=125)
 
         self.cwin.mainloop()
 
@@ -64,8 +65,8 @@ class SignUpWin():
     def __init__(self):
         self.cwin = Tk()
         self.cwin.title("RegisterWindow")
-        self.cwin.geometry('280x180')
-
+        self.cwin.geometry('340x220')
+        self.cwin.resizable(0,0)
         #function
         def back() :
             self.cwin.destroy()
@@ -81,13 +82,8 @@ class SignUpWin():
                 self.cwin.destroy()
                 sw1 = SucessWin()
             else:
-                self.entryTextFn.set("")
-                self.entryTextLn.set("")
-                self.entryTextUn.set("")
-                self.entryTextPass.set("")
-                self.entryTextId.set("")
                 print('Error')
-            self.label_status.config(text=retmsg[1])
+                self.label_status.config(text=retmsg[1])
 
         #create components
         self.label_fname = Label(self.cwin, text = "First Name :")
@@ -95,7 +91,7 @@ class SignUpWin():
         self.label_id = Label(self.cwin, text="Identification Number :")
         self.label_username = Label(self.cwin,text = "username :")
         self.label_password = Label(self.cwin, text = "password :")
-        self.label_status = Label(self.cwin,text="")
+        self.label_status = Label(self.cwin,text="",foreground="red")
         self.entryTextFn = StringVar()
         self.entryTextLn = StringVar()
         self.entryTextId = StringVar()
@@ -106,22 +102,23 @@ class SignUpWin():
         self.entry_boxId = Entry(self.cwin,textvariable = self.entryTextId)
         self.entry_boxUn = Entry(self.cwin,textvariable= self.entryTextUn)
         self.entry_boxPass = Entry(self.cwin,textvariable = self.entryTextPass,show = "•")
-        self.button_back = Button(self.cwin,text="Back",command=back)
-        self.button_OK=Button(self.cwin, text ="Sign up" ,command = addMember)
+        self.button_back = Button(self.cwin,text=" Back ",command=back)
+        self.button_OK=Button(self.cwin, text =" Sign up " ,command = addMember)
 
         #put every components in window
-        self.label_fname.grid(row=0,column=0)
-        self.label_lname.grid(row=1,column=0)
-        self.label_id.grid(row=2,column=0)
-        self.label_username.grid(row=3,column=0)
-        self.label_password.grid(row=4,column=0)
-        self.entry_boxFn.grid(row=0,column=1)
-        self.entry_boxLn.grid(row=1,column=1)
-        self.entry_boxId.grid(row=2,column=1)
-        self.entry_boxUn.grid(row=3,column=1)
-        self.entry_boxPass.grid(row=4,column=1)
-        self.button_OK.grid(row=5,column=1)
-        self.button_back.grid(row=6,column=1)
+        self.label_fname.place(x=10,y=10)
+        self.label_lname.place(x=10,y=40)
+        self.label_id.place(x=10,y=70)
+        self.label_username.place(x=10,y=100)
+        self.label_password.place(x=10,y=130)
+        self.entry_boxFn.place(x=150,y=10)
+        self.entry_boxLn.place(x=150,y=40)
+        self.entry_boxId.place(x=150,y=70)
+        self.entry_boxUn.place(x=150,y=100)
+        self.entry_boxPass.place(x=150,y=130)
+        self.label_status.place(x=20,y=170)
+        self.button_OK.place(x=180,y=170)
+        self.button_back.place(x=250,y=170)
 
         self.cwin.mainloop()
 
@@ -154,7 +151,8 @@ class MenuWin() :
     def __init__(self) :
         self.root = Tk()
         self.root.title("Member Main Menu")
-        self.root.geometry('375x120')
+        self.root.geometry('360x200')
+        self.root.resizable(0,0)
         
         #function
         def popSearchProductWin() :
@@ -166,16 +164,16 @@ class MenuWin() :
             l1 = LoginWindow()
         
         #create components
-        self.header = Label(self.root, text="Member Main Menu")
+        self.header = Label(self.root, text="Member Main Menu", font=("Arial",14))
         self.searchProductButton = Button(self.root, text="Search Product", command=popSearchProductWin)
         self.searchPromotionButton = Button(self.root, text="Search Promotion", command=popSearchPromotionWin)
         self.loginButton = Button(self.root,text="Log in",command=login)
         
         #put every components in window
-        self.header.pack()
-        self.searchProductButton.pack(side=TOP)
-        self.searchPromotionButton.pack(side=TOP)
-        self.loginButton.pack(side=TOP)
+        self.header.place(x=100,y=10)
+        self.searchProductButton.place(x=135,y=55)
+        self.searchPromotionButton.place(x=127,y=95)
+        self.loginButton.place(x=160,y=150)
 
         self.root.mainloop()
 
@@ -337,4 +335,4 @@ class SearchProductWin() :
 
 
 
-Mainmenu = MenuWin()
+Mainmenu = SignUpWin()

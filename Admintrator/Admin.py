@@ -433,4 +433,4 @@ class SearchPromotionWin():
         
     
 
-Mainmenu = AddPromotionWin()
+Mainmenu = SearchPromotionWin()

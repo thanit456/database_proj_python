@@ -63,6 +63,23 @@ class RegisterDB() :
             connection = mysql.connector.connect(host='localhost', database=databasename, user='root', password=password)
        
             objdata = (wdata[2],wdata[0],wdata[1], wdata[3],wdata[4])
+            
+            if wdata[0] == '':
+                retmsg = ["1", "Plase enter first name"]
+                return retmsg
+            elif wdata[1] == '':
+                retmsg = ["1", "Plase enter last name"]
+                return retmsg
+            elif wdata[2] == '':
+                retmsg = ["1", "Plase enter your id"]
+                return retmsg
+            elif wdata[3] == '':
+                retmsg = ["1", "Plase enter username"]
+                return retmsg
+            elif wdata[4] == '':
+                retmsg = ["1", "Plase enter password"]
+                return retmsg
+
             sqlQuery = "insert into "+"member_t"+" (MemberIDNumber, FirstName, LastName, StartDate, ExpireDate, MemberPoints, UserName, Password) " \
                                 "values (%s,%s,%s,'2019-11-23','2020-11-23',0,%s,%s)"
             
