@@ -366,6 +366,7 @@ class SearchPromotionWin():
     def __init__(self):
         self.root = tk.Tk()
         self.root.title('Search Promotion')
+        self.root.geometry('720x460')
         
         self.text_promotion = StringVar()
         self.text_promotion.set("")
@@ -377,10 +378,10 @@ class SearchPromotionWin():
         self.entry_promotion = Entry(self.root,textvariable=self.text_promotion)
         self.entry_product_id = Entry(self.root,textvariable=self.text_product_id)
 
-        self.label_promotion.grid(row=1,column=0)
-        self.entry_promotion.grid(row=1,column=1)
-        self.label_product.grid(row=1,column=2)
-        self.entry_product_id.grid(row=1,column=3)
+        self.label_promotion.place(x=50,y=70)
+        self.entry_promotion.place(x=140,y=70)
+        self.label_product.place(x=400,y=70)
+        self.entry_product_id.place(x=475,y=70)
 
         self.queryList = self.queryPromotion()
 
@@ -392,20 +393,21 @@ class SearchPromotionWin():
                 tree.insert("", "end", values=(i, promotionid, startdate, enddate, percent, mempoint, productid))
                 
 
-        #scores = tk.Tk() 
-        label = tk.Label(self.root, text="Promotion", font=("Arial",24)).grid(row=0, columnspan=3)
+        label = tk.Label(self.root, text="Promotion", font=("Arial",24))
+        label.place(x=280,y=10)
         # create Treeview with 3 columns
         cols = ('Promotion ID', 'Start Date', 'End Date', 'Discount', 'Member Point', 'ProductID')
-        tree = ttk.Treeview(self.root, columns=cols, show='headings',padding=30)
+        tree = ttk.Treeview(self.root, columns=cols, show='headings',padding=20)
         # set column headings
         for col in cols:
             tree.column(col,width=100,stretch=NO)
             tree.heading(col,text=col)
-            
-        tree.grid(row=2, column=0, columnspan=2)
+        tree.place(x=30,y=100,width=660, height=300)
 
-        showDetail = tk.Button(self.root, text="Show Detail", width=15, command=show).grid(row=5, column=0)
-        closeButton = tk.Button(self.root, text="Close", width=15, command=exit).grid(row=5, column=1)
+        showDetail = tk.Button(self.root, text="Show Detail", width=15, command=show)
+        showDetail.place(x=140,y=420)
+        closeButton = tk.Button(self.root, text="Close", width=15, command=exit)
+        closeButton.place(x=420,y=420)
 
 
         self.root.mainloop()

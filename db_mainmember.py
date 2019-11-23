@@ -61,7 +61,7 @@ class RegisterDB() :
         wdata=self.data
 
         try:
-            connection = mysql.connector.connect(host='localhost', database=databasename, user='root', password='boss1234')
+            connection = mysql.connector.connect(host='localhost', database=databasename, user='root', password=password)
        
             objdata1 = (wdata[2], wdata[3])
             objdata2 = (wdata[0], wdata[1])
@@ -85,6 +85,4 @@ class RegisterDB() :
         finally:
             if (connection.is_connected()):
                 connection.close()
-                cursor.close()
-            return retmsg
-    
+            

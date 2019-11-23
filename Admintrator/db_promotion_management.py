@@ -4,7 +4,7 @@ from mysql.connector import Error
 # hyperparameter
 databaseName = 'too_superstore'
 tableName = 'promotion'
-password = '093128156'
+password = 'boss1234'
 
 # global variable
 countPromotionID = 1
