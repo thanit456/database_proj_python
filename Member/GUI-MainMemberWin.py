@@ -241,7 +241,7 @@ class ShowMemInfo() :
         self.label_mem_edate = Label(self.cwin,text=self.records[4])
         self.label_points = Label(self.cwin,text="Member Points :")
         self.label_mem_points = Label(self.cwin,text=self.records[5])
-        self.button_purchaseHis = Button(self.cwin,text="Show Purchase History",command = self.cwin.destroy) #need to change command to go to history page of that user
+        # self.button_purchaseHis = Button(self.cwin,text="Show Purchase History",command = self.cwin.destroy) #need to change command to go to history page of that user
         self.button_back = Button(self.cwin,text=" Back ",command=backToMenu)
         
         #put every components in window
@@ -255,7 +255,7 @@ class ShowMemInfo() :
         self.label_mem_edate.place(x=150,y=100)
         self.label_points.place(x=10,y=130)
         self.label_mem_points.place(x=150,y=130)
-        self.button_purchaseHis.place(x=80,y=160)
+        # self.button_purchaseHis.place(x=80,y=160)
         self.button_back.place(x=280,y=160)
 
         self.cwin.mainloop()
