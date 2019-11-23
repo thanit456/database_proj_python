@@ -127,6 +127,7 @@ class SucessWin():
         self.cwin = Tk()
         self.cwin.title("Sucess sign up")
         self.cwin.geometry('350x100')
+        self.cwin.resizable(0,0)
 
         #function
         def goback():
@@ -134,20 +135,18 @@ class SucessWin():
             l1 = LoginWindow()
 
         #create components
-        self.label_indent = Label(self.cwin,text="")
         self.label_show_message = Label(self.cwin,text="You are now member of Too's Superstore.")
         self.button_ok = Button(self.cwin,text="OK, back to Login",command=goback)
         
         #put every components in window
-        self.label_indent.pack()
-        self.label_show_message.pack()
-        self.button_ok.pack()
+        self.label_show_message.place(x=60,y=20)
+        self.button_ok.place(x=120,y=50)
 
         self.cwin.mainloop()
 
 
 
-class MenuWin() :
+class MenuWin():
     def __init__(self) :
         self.root = Tk()
         self.root.title("Customer Main Menu")
@@ -265,17 +264,15 @@ class SearchPromotionWin() :
     def __init__(self,title):
         self.cwin = Tk()
         self.cwin.title(title)
-        self.cwin.geometry('500x500')
+        self.cwin.geometry('1160x460')
         
         #create components
         self.label_pname = Label(self.cwin,text="Product Name :")
         self.text_pname = StringVar()
         self.text_pname.set("")
         self.entry_pname = Entry(self.cwin,textvariable=self.text_pname)
-        self.label_pname.grid(row=1,column=0)
-        self.entry_pname.grid(row=1,column=1)
-
-        
+        self.label_pname.place(x=30,y=70)
+        self.entry_pname.place(x=120,y=70)
 
         #function
         def show():
@@ -286,21 +283,22 @@ class SearchPromotionWin() :
             for i,(promotionid,productid,productname,startdate,enddate,mempoint,oldprice,discount,newprice) in enumerate(self.queryList,start=1):
                 self.tree.insert("","end", values=(i,promotionid,productid,productname,startdate,enddate,mempoint,oldprice,discount,newprice))
         
-        self.table_label = Label(self.cwin,text="Promotion")
-        self.table_label.grid(row=0,columnspan=3)
+        self.table_label = Label(self.cwin,text="Promotion", font=("Arial",24))
+        self.table_label.place(x=480,y=10)
+        
         #table component
         self.cols = ('No.','Promotion ID','Product ID','Product Name','Start Date','End Date','Member Points','Original Price','Percent Discount','Discount Price')
         self.tree = ttk.Treeview(self.cwin,column=self.cols,show='headings',padding=30)
         for col in self.cols:
             self.tree.column(col,width=100,stretch=NO)
             self.tree.heading(col,text=col)
-        self.tree.grid(row=2,column=0,columnspan=2)
+        self.tree.place(x=30,y=100,width=1100, height=300)
 
         #button components
         self.button_submit=Button(self.cwin, text ="SEARCH", command=show)
-        self.button_exit=Button(self.cwin, text="EXIT", command=self.cwin.destroy)
-        self.button_submit.grid(row=5,column=0)
-        self.button_exit.grid(row=5, column=1)
+        self.button_exit=Button(self.cwin, text=" Close ", command=self.cwin.destroy)
+        self.button_submit.place(x=250,y=67)
+        self.button_exit.place(x=520,y=420)
 
         self.cwin.mainloop()
 
@@ -338,4 +336,4 @@ class SearchProductWin() :
 
 
 
-Mainmenu = MenuWithLoginWin('boss')
+Mainmenu = MenuWin()
