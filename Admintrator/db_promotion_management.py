@@ -229,7 +229,19 @@ class PromotionDB() :
     def showTable(self, databasename, table):
         try:
             connection = mysql.connector.connect(host='localhost', database=databasename, user='root', password=password)
-            sqlQuery = "select * from " + table
+            
+            wdata = self.data
+        
+
+            if (wdata[0].strip() != '' and wdata[1].strip() != ''):
+                sqlQuery = 'select * from ' + table + ' where PromotionID = ' + wdata[0].strip() + ' , ProductID = ' + wdata[1].strip() 
+            elif (wdata[0].strip() != ''):
+                sqlQuery = 'select * from ' + table + ' where PromotionID = ' + wdata[0].strip()
+            elif (wdata[1].strip() != ''):
+                sqlQuery = 'select * from' + table + ' where ProductID = ' + wdata[1].strip()  
+            else:
+                sqlQuery = "select * from " + table            
+            
             cursor = connection.cursor()
             cursor.execute(sqlQuery)
             self.records = cursor.fetchall()

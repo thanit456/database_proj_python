@@ -366,6 +366,22 @@ class SearchPromotionWin():
     def __init__(self):
         self.root = tk.Tk()
         self.root.title('Search Promotion')
+        
+        self.text_promotion = StringVar()
+        self.text_promotion.set("")
+        self.text_product_id =  StringVar()
+        self.text_product_id.set("")
+
+        self.label_promotion = Label(self.root, text="Promotion ID :")
+        self.label_product = Label(self.root,text="Product ID :")
+        self.entry_promotion = Entry(self.root,textvariable=self.text_promotion)
+        self.entry_product_id = Entry(self.root,textvariable=self.text_product_id)
+
+        self.label_promotion.grid(row=1,column=0)
+        self.entry_promotion.grid(row=1,column=1)
+        self.label_product.grid(row=1,column=2)
+        self.entry_product_id.grid(row=1,column=3)
+
         self.queryList = self.queryPromotion()
 
         def show():
@@ -386,19 +402,22 @@ class SearchPromotionWin():
             tree.column(col,width=100,stretch=NO)
             tree.heading(col,text=col)
             
-        tree.grid(row=1, column=0, columnspan=2)
+        tree.grid(row=2, column=0, columnspan=2)
 
-        showDetail = tk.Button(self.root, text="Show Detail", width=15, command=show).grid(row=4, column=0)
-        closeButton = tk.Button(self.root, text="Close", width=15, command=exit).grid(row=4, column=1)
+        showDetail = tk.Button(self.root, text="Show Detail", width=15, command=show).grid(row=5, column=0)
+        closeButton = tk.Button(self.root, text="Close", width=15, command=exit).grid(row=5, column=1)
 
 
         self.root.mainloop()
     def queryPromotion(self):
     # self.cwin.title("Submitted")
-        dataentry = list()
+        dataentry = [
+            self.entry_promotion.get(),
+            self.entry_product_id.get()
+        ]
         aPromotion = Promotion(dataentry)
         return aPromotion.showTable()
         
-        # self.label_status.config(text=retmsg[1])
+    
 
-Mainmenu = AdminWindow()
+Mainmenu = SearchPromotionWin()
