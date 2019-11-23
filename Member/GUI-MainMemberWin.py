@@ -1,5 +1,7 @@
 from tkinter import *
+from tkinter import ttk
 from db_mainmember import *
+from db_mainmember  import *
 
 class LoginWindow() :
     def __init__ (self):
@@ -159,8 +161,8 @@ class MenuWin() :
         
         #create components
         self.header = Label(self.root, text="Member Main Menu")
-        self.searchProductButton = Button(self.root, text="Search Product by Branch Name and  Product Name", command=popSearchProductWin)
-        self.searchPromotionButton = Button(self.root, text="Search Promotion by Branch Name and Product Name", command=popSearchPromotionWin)
+        self.searchProductButton = Button(self.root, text="Search Product", command=popSearchProductWin)
+        self.searchPromotionButton = Button(self.root, text="Search Promotion", command=popSearchPromotionWin)
         self.loginButton = Button(self.root,text="Log in",command=login)
         
         #put every components in window
@@ -191,8 +193,8 @@ class MenuWithLoginWin() :
         
         #create components
         self.header = Label(self.root, text="Customer Main Menu")
-        self.searchProductButton = Button(self.root, text="Search Product by Branch Name and  Product Name", command=popSearchProductWin)
-        self.searchPromotionButton = Button(self.root, text="Search Promotion by Branch Name and Product Name", command=popSearchPromotionWin)
+        self.searchProductButton = Button(self.root, text="Search Product", command=popSearchProductWin)
+        self.searchPromotionButton = Button(self.root, text="Search Promotion", command=popSearchPromotionWin)
         self.showMemberInfoButton = Button(self.root,text="Member Info",command=showMemberInfo)
         self.LogoutButton = Button(self.root,text="Log out",command=logout)
 
@@ -247,25 +249,53 @@ class ShowMemInfo() :
 
 class SearchPromotionWin() :
     def __init__(self,title):
-        self.cwin = Toplevel()
+        self.cwin = Tk()
         self.cwin.title(title)
-        self.cwin.geometry('300x100')
-        
-        #function
-        def callback():
-            self.cwin.destroy()
+        self.cwin.geometry('500x500')
         
         #create components
-        self.label_name = Label(self.cwin,text="Product Name :")
-        self.entry_name = Entry(self.cwin)
-        self.button_submit=Button(self.cwin, text ="SEARCH", command=callback) #need to add command for search
-        self.button_exit=Button(self.cwin, text="EXIT", command=self.cwin.destroy)
+        self.label_pname = Label(self.cwin,text="Product Name :")
+        self.text_pname = StringVar()
+        self.text_pname.set("")
+        self.entry_pname = Entry(self.cwin,textvariable=self.text_pname)
+        self.label_pname.grid(row=1,column=0)
+        self.entry_pname.grid(row=1,column=1)
+
         
-        #put every components in window
-        self.label_name.grid(row=0,column=0)
-        self.entry_name.grid(row=0,column=1)
-        self.button_submit.grid(row=1,column=1)
-        self.button_exit.grid(row=2, column=1)
+
+        #function
+        def show():
+            self.queryList = self.queryPromotion() #query
+            self.leaf_nodes = self.tree.get_children()
+            for i in self.leaf_nodes:
+                self.tree.delete(i)
+            for i,(promotionid,productid,productname,startdate,enddate,mempoint,oldprice,discount,newprice) in enumerate(self.queryList,start=1):
+                self.tree.insert("","end", values=(i,promotionid,productid,productname,startdate,enddate,mempoint,oldprice,discount,newprice))
+        
+        self.table_label = Label(self.cwin,text="Promotion")
+        self.table_label.grid(row=0,columnspan=3)
+        #table component
+        self.cols = ('No.','Promotion ID','Product ID','Product Name','Start Date','End Date','Member Points','Original Price','Percent Discount','Discount Price')
+        self.tree = ttk.Treeview(self.cwin,column=self.cols,show='headings',padding=30)
+        for col in self.cols:
+            self.tree.column(col,width=100,stretch=NO)
+            self.tree.heading(col,text=col)
+        self.tree.grid(row=2,column=0,columnspan=2)
+
+        #button components
+        self.button_submit=Button(self.cwin, text ="SEARCH", command=show)
+        self.button_exit=Button(self.cwin, text="EXIT", command=self.cwin.destroy)
+        self.button_submit.grid(row=5,column=0)
+        self.button_exit.grid(row=5, column=1)
+
+        self.cwin.mainloop()
+
+    def queryPromotion(self):
+        dataentry = [
+            self.entry_pname.get()
+        ]
+        aPromotion = Promotion(dataentry)
+        return aPromotion.showTable()
 
 
 
