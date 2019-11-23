@@ -35,7 +35,7 @@ class LoginDB() :
         else :
             retmsg = ["1", "Username Not Found"]
             if records[-1] == wpass :
-                retmsg = ["0", "Correct Password"]
+                retmsg = ["0", "Correct Password",wkey]
             else :
                 retmsg = ["1", "Incorrect Password"]
         finally:

@@ -18,7 +18,7 @@ class LoginWindow() :
 
             if retmsg[0] == "0" :
                 self.cwin.destroy()
-                m1 = MenuWithLoginWin()
+                m1 = MenuWithLoginWin(retmsg[2])
             
             else :
                 print("Error")
@@ -180,8 +180,9 @@ class MenuWin() :
         self.root.mainloop()
 
 class MenuWithLoginWin() :
-    def __init__(self) :
+    def __init__(self,user) :
         self.root = Tk()
+        self.user = user
         self.root.title("Customer Main Menu")
         self.root.geometry('370x150')
       
@@ -190,9 +191,12 @@ class MenuWithLoginWin() :
             s1 = SearchProductWin("Product Search")
         def popSearchPromotionWin() :
             s2 = SearchPromotionWin("Promotion Search")
-        def showMemberInfo():
+        def popMemberInfo():
+            dataentry = [self.user]
+            ameminfo = SelectMemInfo(dataentry)
+            records = ameminfo.showmeminfo()
             self.root.destroy()
-            sm1 = ShowMemInfo("MemberInfo")
+            sm1 = ShowMemInfo("MemberInfo",records)
         def logout():
             self.root.destroy()
             l1 = MenuWin()
@@ -201,7 +205,7 @@ class MenuWithLoginWin() :
         self.header = Label(self.root, text="Customer Main Menu")
         self.searchProductButton = Button(self.root, text="Search Product", command=popSearchProductWin)
         self.searchPromotionButton = Button(self.root, text="Search Promotion", command=popSearchPromotionWin)
-        self.showMemberInfoButton = Button(self.root,text="Member Info",command=showMemberInfo)
+        self.showMemberInfoButton = Button(self.root,text="Member Info",command=popMemberInfo)
         self.LogoutButton = Button(self.root,text="Log out",command=logout)
 
         #put every components in window
@@ -214,13 +218,12 @@ class MenuWithLoginWin() :
         self.root.mainloop()
         
     
-        
-
 class ShowMemInfo() :
-    def __init__(self,title):
+    def __init__(self,title,records):
         self.cwin = Tk()
+        self.records = records
         self.cwin.title(title)
-        self.cwin.geometry('450x200')
+        self.cwin.geometry('400x200')
 
         #function
         def backToMenu() :
@@ -229,13 +232,15 @@ class ShowMemInfo() :
 
         #create components
         self.label_name = Label(self.cwin,text="Name :")
-        self.label_mem_name = Label(self.cwin,text="Pasit")
+        self.label_mem_name = Label(self.cwin,text=self.records[1])
         self.label_lname = Label(self.cwin,text="Last Name :")
-        self.label_mem_lname = Label(self.cwin,text="Laohawarutchai")
+        self.label_mem_lname = Label(self.cwin,text=self.records[2])
         self.label_sdate = Label(self.cwin,text="Start Date :")
-        self.label_mem_sdate = Label(self.cwin,text="30/09/1998")
+        self.label_mem_sdate = Label(self.cwin,text=self.records[3])
         self.label_edate = Label(self.cwin,text="Expired date :")
-        self.label_mem_edate = Label(self.cwin,text="30/09/1999")
+        self.label_mem_edate = Label(self.cwin,text=self.records[4])
+        self.label_points = Label(self.cwin,text="Member Points :")
+        self.label_mem_points = Label(self.cwin,text=self.records[5])
         self.button_purchaseHis = Button(self.cwin,text="Show Purchase History",command = self.cwin.destroy) #need to change command to go to history page of that user
         self.button_back = Button(self.cwin,text="Back",command=backToMenu)
         
@@ -248,8 +253,10 @@ class ShowMemInfo() :
         self.label_mem_sdate.grid(row=2,column=1)
         self.label_edate.grid(row=3,column=0)
         self.label_mem_edate.grid(row=3,column=1)
-        self.button_purchaseHis.grid(row=4,column=0)
-        self.button_back.grid(row=5,column=0)
+        self.label_points.grid(row=4,column=0)
+        self.label_mem_points.grid(row=4,column=1)
+        self.button_purchaseHis.grid(row=5,column=1)
+        self.button_back.grid(row=6,column=1)
 
         self.cwin.mainloop()
 
