@@ -165,3 +165,37 @@ class SelectMemInfoDB() :
                 connection.close()
                 cursor.close()
             return records
+
+class Product() :
+    def __init__(self, data) :
+        self.productDataObj = ProductDB(data)
+
+    def showTable(self):
+        return self.productDataObj.showTable(databaseName)
+
+class ProductDB() :
+    
+    def __init__(self, data) :
+        self.data = data
+        self.columns = []
+        self.records = []
+    
+    def showTable(self, databasename):
+        try:
+            connection = mysql.connector.connect(host='localhost', database=databasename, user='root', password=password)
+            
+            wdata = self.data
+
+            if (wdata[0].strip() == ''):
+                sqlQuery = "SELECT product.ProductID ,product.Name,product.Description,branch.Name,bkeeps.Quantity FROM product INNER JOIN bkeeps ON product.ProductID = bkeeps.ProductID INNER JOIN branch ON bkeeps.BranchID = branch.BranchID;"
+            else :
+                sqlQuery = "SELECT product.ProductID ,product.Name,product.Description,branch.Name,bkeeps.Quantity FROM product INNER JOIN bkeeps ON product.ProductID = bkeeps.ProductID INNER JOIN branch ON bkeeps.BranchID = branch.BranchID WHERE product.Name="+"'"+str(wdata[0].strip())+"'"+";"
+            cursor = connection.cursor()
+            cursor.execute(sqlQuery)
+            self.records = cursor.fetchall()
+                   
+        finally:
+            if (connection.is_connected()):
+                connection.close()
+                cursor.close()
+            return self.records

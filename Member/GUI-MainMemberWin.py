@@ -315,25 +315,48 @@ class SearchProductWin() :
     def __init__(self, title) :
         self.cwin = Toplevel()
         self.cwin.title(title)
-        self.cwin.geometry('300x100')
+        self.cwin.geometry('800x460')
         
         #function
         def callback():
             self.cwin.destroy()
 
+        def show():
+            self.queryList = self.queryProduct() #query
+            self.leaf_nodes = self.tree.get_children()
+            for i in self.leaf_nodes:
+                self.tree.delete(i)
+            for i,(p,n,d,b,q) in enumerate(self.queryList,start=1):
+                self.tree.insert("","end", values=(i,p,n,d,b,q))
+        
+        self.table_label = Label(self.cwin,text="Product", font=("Arial",24))
+        self.table_label.place(x=320,y=10)
+        
+        #table component
+        self.cols = ('No.','Product ID','Name','Description','Branch','Quantity')
+        self.tree = ttk.Treeview(self.cwin,column=self.cols,show='headings',padding=30)
+        for col in self.cols:
+            self.tree.column(col,width=100,stretch=NO)
+            self.tree.heading(col,text=col)
+        self.tree.place(x=30,y=100,width=720, height=300)
+
         #create components
         self.label_name=Label(self.cwin, text="Product Name :")
         self.entry_name=Entry(self.cwin)
-        self.button_submit=Button(self.cwin, text ="SEARCH", command=callback) #need to add command for search
-        self.button_exit=Button(self.cwin, text="EXIT", command=self.cwin.destroy)
+        self.button_submit=Button(self.cwin, text ="SEARCH", command=show) #need to add command for search
+        self.button_exit=Button(self.cwin, text=" Close ", command=self.cwin.destroy)
 
         #put every components in window
-        self.label_name.grid(row=0,column=0)
-        self.entry_name.grid(row=0,column=1)
-        self.button_submit.grid(row=1,column=1)
-        self.button_exit.grid(row=2, column=1)
-
-
-
+        self.label_name.place(x=30,y=70)
+        self.entry_name.place(x=120,y=70)
+        self.button_submit.place(x=250,y=67)
+        self.button_exit.place(x=380,y=420)
+    
+    def queryProduct(self):
+        dataentry = [
+            self.entry_name.get()
+        ]
+        aProduct = Product(dataentry)
+        return aProduct.showTable()
 
 Mainmenu = MenuWin()
