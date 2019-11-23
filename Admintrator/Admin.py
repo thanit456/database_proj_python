@@ -210,6 +210,9 @@ class AddPromotionWin() :
             self.root.destroy()
             #m1 = PromotionWin()
 
+        
+        self.text_branch_id =  StringVar()
+        self.text_branch_id.set("")
         self.text_product_id =  StringVar()
         self.text_product_id.set("")
         self.text_start_date =  StringVar()
@@ -221,6 +224,7 @@ class AddPromotionWin() :
         self.text_mempoint =  StringVar()
         self.text_mempoint.set("")
 
+        self.label_branch = Label(self.root,text="Branch ID :")
         self.label_product = Label(self.root,text="Product ID :")
         self.label_start = Label(self.root,text="Start Date :")
         self.label_end = Label(self.root,text="End Date :")
@@ -228,6 +232,7 @@ class AddPromotionWin() :
         self.label_mempoint = Label(self.root,text="Member point :")
         self.label_status = Label(self.root)
 
+        self.entry_branch_id = Entry(self.root,textvariable=self.text_branch)
         self.entry_product_id = Entry(self.root,textvariable=self.text_product_id)
         self.entry_start_date = Entry(self.root,textvariable=self.text_start_date)
         self.entry_end_date = Entry(self.root,textvariable=self.text_end_date)
@@ -239,6 +244,8 @@ class AddPromotionWin() :
 
         self.label_product.grid(row=0,column=0)
         self.entry_product_id.grid(row=0,column=1)
+        self.label_branch.grid(row=0,column=2)
+        self.entry_branch_id.grid(row=0,column=3)
         self.label_start.grid(row=1,column=0)
         self.entry_start_date.grid(row=1,column=1)
         self.label_end.grid(row=1,column=2)
@@ -263,9 +270,10 @@ class AddPromotionWin() :
                     self.entry_end_date.get(), 
                     self.entry_percentage.get(),
                     self.entry_mempoint.get(), 
-                    self.entry_product_id.get()
+                    self.entry_product_id.get(), 
+                    self.entry_branch_id.get()
                     ]
-        print('Entry: ',dataentry)
+        
         aPromotion = Promotion(dataentry)
         retmsg = aPromotion.write()
         self.label_status.config(text=retmsg[1])
@@ -315,6 +323,9 @@ class EditPromotionWin() :
 
         self.promotion_id = promotion_id
 
+
+        self.text_branch_id =  StringVar()
+        self.text_branch_id.set("")
         self.text_product_id =  StringVar()
         self.text_product_id.set("")
         self.text_start_date =  StringVar()
@@ -326,6 +337,7 @@ class EditPromotionWin() :
         self.text_mempoint =  StringVar()
         self.text_mempoint.set("")
 
+        self.label_branch = Label(self.root,text="Branch ID :")
         self.label_product = Label(self.root,text="Product ID :")
         self.label_start = Label(self.root,text="Start Date :")
         self.label_end = Label(self.root,text="End Date :")
@@ -333,7 +345,7 @@ class EditPromotionWin() :
         self.label_mempoint = Label(self.root,text="Member point :")
         self.label_status = Label(self.root)
 
-
+        self.entry_branch_id = Entry(self.root,textvariable=self.text_product_id)
         self.entry_product_id = Entry(self.root,textvariable=self.text_product_id)
         self.entry_start_date = Entry(self.root,textvariable=self.text_start_date)
         self.entry_end_date = Entry(self.root,textvariable=self.text_end_date)
@@ -344,6 +356,8 @@ class EditPromotionWin() :
 
         self.label_product.grid(row=0,column=0)
         self.entry_product_id.grid(row=0,column=1)
+        self.label_branch.grid(row=0,column=2)
+        self.entry_branch_id.grid(row=0,column=3)
         self.label_start.grid(row=1,column=0)
         self.entry_start_date.grid(row=1,column=1)
         self.label_end.grid(row=1,column=2)
@@ -367,7 +381,8 @@ class EditPromotionWin() :
                     self.entry_end_date.get(), 
                     self.entry_percentage.get(),
                     self.entry_mempoint.get(), 
-                    self.entry_product_id.get()
+                    self.entry_product_id.get(),
+                    self.entry_branch_id.get()
                     ]
         aPromotion = Promotion(dataentry)
         retmsg = aPromotion.edit()
@@ -433,4 +448,4 @@ class SearchPromotionWin():
         
     
 
-Mainmenu = SearchPromotionWin()
+Mainmenu = PromotionWin()

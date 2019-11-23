@@ -49,8 +49,9 @@ class PromotionDB() :
         try:
             connection = mysql.connector.connect(host='localhost',database=databasename,user='root',password=password)
 
-            objdata = (wdata[0], wdata[1], wdata[2], wdata[3], wdata[4])
-                  
+            objdata = (wdata[0], wdata[1], wdata[2], wdata[3], wdata[4], wdata[5])
+
+            # insert into promotion table  
             sqlQuery = "insert into " + table +  " values ( '"+ str(countPromotionID) + "', '" + wdata[0] + \
                         "', '" + wdata[1] + "', " + wdata[2] + ", " + wdata[3] + ", '" + wdata[4]  + "')"
 
@@ -58,7 +59,17 @@ class PromotionDB() :
             cursor.execute(sqlQuery)
 
             connection.commit()
+
+            # ! insert into salesat table
+            sup_sqlQuery = "insert into " + table + " values ( '" + wdata[0] + "',  '" + wdata[5] + "' )"
+            print('Sub query : ', sup_sqlQuery)
             
+            cursor = connection.cursor()
+            cursor.execute(sup_sqlQuery)
+
+            connection.commit()
+
+
 
         except:
             retmsg = ["1", "writing error"]
@@ -82,9 +93,7 @@ class PromotionDB() :
             connection = mysql.connector.connect(host='localhost',database=databasename,user='root',password=password)
                
             wdata = self.data
-            objdata = (wdata[0], wdata[1], wdata[2], wdata[3], wdata[4], wdata[5])
-                  
-            print('object : ',objdata)
+            objdata = (wdata[0], wdata[1], wdata[2], wdata[3], wdata[4], wdata[5], wdata[6])
 
             sqlQuery = 'update promotion' + \
                     ' set StartDate = \'' + wdata[1] + "'" + \
@@ -125,6 +134,13 @@ class PromotionDB() :
             cursor.execute(sqlQuery)
             connection.commit()
 
+            sup_sqlQuery = "DELETE FROM salesat WHERE PromotionID = '" + wdata[0] + "'"
+            print(sup_sqlQuery)
+
+            cursor = connection.cursor()
+            cursor.execute(sup_sqlQuery)
+            connection.commit()
+
         except:
             retmsg = ["1", "delete error"]
         else :
@@ -143,14 +159,22 @@ class PromotionDB() :
             wdata = self.data
         
 
-            if (wdata[0].strip() != '' and wdata[1].strip() != ''):
-                sqlQuery = 'select * from ' + table + ' where PromotionID = "' + wdata[0].strip() + '" , ProductID = "' + wdata[1].strip()  + '"'
+            sqlQuery = 'select * from ' + table + " NATURAL JOIN salesat"
+            if (wdata[0].strip() != '' and wdata[1].strip() != '' and wdata[2].strip() != ''):
+                sqlQuery += ' where PromotionID = "' + wdata[0].strip() + '" , ProductID = "' + wdata[1].strip()  + '", BranchID = "' + wdata[2].strip() + '"'
+            elif (wdata[0].strip() != '' and wdata[1].strip() != ''):
+                sqlQuery += ' where PromotionID = "' + wdata[0].strip() + '" , ProductID = "' + wdata[1].strip() + '"'
+            elif (wdata[0].strip() != '' and wdata[2].strip() != ''):
+                sqlQuery += ' where PromotionID = "' + wdata[0].strip() + '" , BranchID = "' + wdata[1].strip() + '"'
+            elif (wdata[1].strip() != '' and wdata[2].strip() != ''):
+                sqlQuery += ' where ProductID = "' + wdata[1].strip()  + '" ,  BranchID = "' + wdata[2].strip() + '"'
             elif (wdata[0].strip() != ''):
-                sqlQuery = 'select * from ' + table + ' where PromotionID = "' + wdata[0].strip() + '"'
+                sqlQuery += ' where ProductID = "' + wdata[0].strip() + '"'
             elif (wdata[1].strip() != ''):
-                sqlQuery = 'select * from' + table + ' where ProductID = "' + wdata[1].strip()  + '"'
-            else:
-                sqlQuery = "select * from " + table            
+                sqlQuery += ' where PromotionID = "' + wdata[1].strip() + '"'
+            elif (wdata[2].strip() != ''):
+                sqlQuery += ' where BranchID = "' + wdata[2].strip() + '"'
+
             print(sqlQuery)
 
 

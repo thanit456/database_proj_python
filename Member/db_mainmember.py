@@ -3,7 +3,7 @@ from mysql.connector import Error
 
 #hyperparameter
 databaseName = 'too_superstore'
-password = 'boss1234'
+password = '093128156'
 
 class Login() :
     def __init__(self, data) :
