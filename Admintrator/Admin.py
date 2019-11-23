@@ -222,6 +222,7 @@ class AddPromotionWin() :
         self.label_end = Label(self.root,text="End Date :")
         self.label_percentage = Label(self.root,text="Discount :")
         self.label_mempoint = Label(self.root,text="Member point :")
+        self.label_status = Label(self.root)
 
         self.entry_product_id = Entry(self.root,textvariable=self.text_product_id)
         self.entry_start_date = Entry(self.root,textvariable=self.text_start_date)
@@ -243,6 +244,7 @@ class AddPromotionWin() :
         self.entry_mempoint.grid(row=2,column=3)
 
         self.button_ADD.grid(row=3,column=1)
+        self.label_status.grid(row=4, column=2)
 
         self.button_ADD.configure(command=self.submitNewPromotion)
         self.root.mainloop()
@@ -259,7 +261,7 @@ class AddPromotionWin() :
         print('Entry: ',dataentry)
         aPromotion = Promotion(dataentry)
         retmsg = aPromotion.write()
-        # self.label_status.config(text=retmsg[1])
+        self.label_status.config(text=retmsg[1])
 
     
 class EditOrDeletePromotionWin() :
@@ -277,14 +279,18 @@ class EditOrDeletePromotionWin() :
         self.entry_promotion.grid(row=0,column=1)
         self.button_edit = Button(self.root, text="Edit", command=self.goEditPromotion)
         self.button_edit.grid(row=2, column=1)
-        self.button_delete = Button(self.root,text="Delete")
+        self.button_delete = Button(self.root,text="Delete", command=self.deletePromotionByID)
         self.button_delete.grid(row=3,column=1)
         
+        self.label_status = Label(self.root)
+        self.label_status.grid(row=4, column=2)
 
         self.root.mainloop()
     def deletePromotionByID(self):
         dataentry = [self.entry_promotion.get()]
-
+        aPromotion = Promotion(dataentry)
+        retmsg = aPromotion.delete()
+        self.label_status.config(text=retmsg[1])
 
     def goEditPromotion(self):
         editwin = EditPromotionWin(self.entry_promotion.get())
@@ -318,6 +324,8 @@ class EditPromotionWin() :
         self.label_end = Label(self.root,text="End Date :")
         self.label_percentage = Label(self.root,text="Discount :")
         self.label_mempoint = Label(self.root,text="Member point :")
+        self.label_status = Label(self.root)
+
 
         self.entry_product_id = Entry(self.root,textvariable=self.text_product_id)
         self.entry_start_date = Entry(self.root,textvariable=self.text_start_date)
@@ -339,6 +347,7 @@ class EditPromotionWin() :
         self.entry_mempoint.grid(row=2,column=3)
 
         self.button_EDIT.grid(row=3,column=2)
+        self.label_status.grid(row=4,column=3)
 
         self.button_EDIT.configure(command=self.submitEditPromotion)
         self.root.mainloop()
@@ -355,7 +364,7 @@ class EditPromotionWin() :
                     ]
         aPromotion = Promotion(dataentry)
         retmsg = aPromotion.edit()
-        # self.label_status.config(text=retmsg[1])
+        self.label_status.config(text=retmsg[1])
 
     
 class SearchPromotionWin():
@@ -378,8 +387,6 @@ class SearchPromotionWin():
         self.entry_promotion.place(x=140,y=70)
         self.label_product.place(x=400,y=70)
         self.entry_product_id.place(x=475,y=70)
-
-        
 
         def show():
             self.queryList = self.queryPromotion()
@@ -419,4 +426,4 @@ class SearchPromotionWin():
         
     
 
-Mainmenu = SearchPromotionWin()
+Mainmenu = AddPromotionWin()
