@@ -205,6 +205,10 @@ class AddPromotionWin() :
         self.root = tk.Tk()
         self.root.title("Add Promotion")
         self.root.geometry('460x200')
+    
+        def back() :
+            self.root.destroy()
+            #m1 = PromotionWin()
 
         self.text_product_id =  StringVar()
         self.text_product_id.set("")
@@ -231,6 +235,7 @@ class AddPromotionWin() :
         self.entry_mempoint = Entry(self.root,textvariable=self.text_mempoint)
 
         self.button_ADD = Button(self.root,text="Submit")
+        self.button_back = Button(self.root,text="Back",command=back)
 
         self.label_product.grid(row=0,column=0)
         self.entry_product_id.grid(row=0,column=1)
@@ -245,6 +250,8 @@ class AddPromotionWin() :
 
         self.button_ADD.grid(row=3,column=1)
         self.label_status.grid(row=4, column=2)
+
+        self.button_back.grid(row=3,column=2)
 
         self.button_ADD.configure(command=self.submitNewPromotion)
         self.root.mainloop()
