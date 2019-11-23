@@ -150,7 +150,7 @@ class SucessWin():
 class MenuWin() :
     def __init__(self) :
         self.root = Tk()
-        self.root.title("Member Main Menu")
+        self.root.title("Customer Main Menu")
         self.root.geometry('360x200')
         self.root.resizable(0,0)
         
@@ -164,13 +164,13 @@ class MenuWin() :
             l1 = LoginWindow()
         
         #create components
-        self.header = Label(self.root, text="Member Main Menu", font=("Arial",14))
+        self.header = Label(self.root, text="Customer Main Menu", font=("Arial",14))
         self.searchProductButton = Button(self.root, text="Search Product", command=popSearchProductWin)
         self.searchPromotionButton = Button(self.root, text="Search Promotion", command=popSearchPromotionWin)
         self.loginButton = Button(self.root,text="Log in",command=login)
         
         #put every components in window
-        self.header.place(x=100,y=10)
+        self.header.place(x=90,y=10)
         self.searchProductButton.place(x=135,y=55)
         self.searchPromotionButton.place(x=127,y=95)
         self.loginButton.place(x=160,y=150)
@@ -181,8 +181,9 @@ class MenuWithLoginWin() :
     def __init__(self,user) :
         self.root = Tk()
         self.user = user
-        self.root.title("Customer Main Menu")
-        self.root.geometry('370x150')
+        self.root.title("Member Main Menu")
+        self.root.geometry('360x200')
+        self.root.resizable(0,0)
       
         #function
         def popSearchProductWin() :
@@ -194,39 +195,41 @@ class MenuWithLoginWin() :
             ameminfo = SelectMemInfo(dataentry)
             records = ameminfo.showmeminfo()
             self.root.destroy()
-            sm1 = ShowMemInfo("MemberInfo",records)
+            sm1 = ShowMemInfo("MemberInfo",records,self.user)
         def logout():
             self.root.destroy()
             l1 = MenuWin()
         
         #create components
-        self.header = Label(self.root, text="Customer Main Menu")
+        self.header = Label(self.root, text="Member Main Menu", font=("Arial",14))
         self.searchProductButton = Button(self.root, text="Search Product", command=popSearchProductWin)
         self.searchPromotionButton = Button(self.root, text="Search Promotion", command=popSearchPromotionWin)
         self.showMemberInfoButton = Button(self.root,text="Member Info",command=popMemberInfo)
         self.LogoutButton = Button(self.root,text="Log out",command=logout)
 
         #put every components in window
-        self.header.pack()
-        self.searchProductButton.pack(side=TOP)
-        self.searchPromotionButton.pack(side=TOP)
-        self.showMemberInfoButton.pack(side=TOP)
-        self.LogoutButton.pack(side=TOP)
+        self.header.place(x=90,y=10)
+        self.searchProductButton.place(x=135,y=55)
+        self.searchPromotionButton.place(x=127,y=95)
+        self.showMemberInfoButton.place(x=140,y=135)
+        self.LogoutButton.place(x=280,y=160)
 
         self.root.mainloop()
         
     
 class ShowMemInfo() :
-    def __init__(self,title,records):
+    def __init__(self,title,records,user):
         self.cwin = Tk()
+        self.user = user
         self.records = records
         self.cwin.title(title)
-        self.cwin.geometry('400x200')
+        self.cwin.geometry('360x200')
+        self.cwin.resizable(0,0)
 
         #function
         def backToMenu() :
             self.cwin.destroy()
-            m1 = MenuWithLoginWin()
+            m1 = MenuWithLoginWin(self.user)
 
         #create components
         self.label_name = Label(self.cwin,text="Name :")
@@ -240,21 +243,21 @@ class ShowMemInfo() :
         self.label_points = Label(self.cwin,text="Member Points :")
         self.label_mem_points = Label(self.cwin,text=self.records[5])
         self.button_purchaseHis = Button(self.cwin,text="Show Purchase History",command = self.cwin.destroy) #need to change command to go to history page of that user
-        self.button_back = Button(self.cwin,text="Back",command=backToMenu)
+        self.button_back = Button(self.cwin,text=" Back ",command=backToMenu)
         
         #put every components in window
-        self.label_name.grid(row=0,column=0)
-        self.label_mem_name.grid(row=0,column=1)
-        self.label_lname.grid(row=1,column=0)
-        self.label_mem_lname.grid(row=1,column=1)
-        self.label_sdate.grid(row=2,column=0)
-        self.label_mem_sdate.grid(row=2,column=1)
-        self.label_edate.grid(row=3,column=0)
-        self.label_mem_edate.grid(row=3,column=1)
-        self.label_points.grid(row=4,column=0)
-        self.label_mem_points.grid(row=4,column=1)
-        self.button_purchaseHis.grid(row=5,column=1)
-        self.button_back.grid(row=6,column=1)
+        self.label_name.place(x=10,y=10)
+        self.label_mem_name.place(x=150,y=10)
+        self.label_lname.place(x=10,y=40)
+        self.label_mem_lname.place(x=150,y=40)
+        self.label_sdate.place(x=10,y=70)
+        self.label_mem_sdate.place(x=150,y=70)
+        self.label_edate.place(x=10,y=100)
+        self.label_mem_edate.place(x=150,y=100)
+        self.label_points.place(x=10,y=130)
+        self.label_mem_points.place(x=150,y=130)
+        self.button_purchaseHis.place(x=80,y=160)
+        self.button_back.place(x=280,y=160)
 
         self.cwin.mainloop()
 
@@ -335,4 +338,4 @@ class SearchProductWin() :
 
 
 
-Mainmenu = SignUpWin()
+Mainmenu = MenuWithLoginWin('boss')
