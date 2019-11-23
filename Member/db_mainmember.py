@@ -3,7 +3,7 @@ from mysql.connector import Error
 
 #hyperparameter
 databaseName = 'too_superstore'
-password = '093128156'
+password = 'win448800'
 
 class Login() :
     def __init__(self, data) :
@@ -157,7 +157,7 @@ class SelectMemInfoDB() :
                     
         except:
             retmsg = ["1", "Error"]
-            print(E)
+            # print(E)
         else :
             retmsg = ["0", " ShowInfo"]
         finally:
