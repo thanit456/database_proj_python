@@ -64,7 +64,7 @@ class SignUpWin():
     def __init__(self):
         self.cwin = Tk()
         self.cwin.title("RegisterWindow")
-        self.cwin.geometry('265x170')
+        self.cwin.geometry('280x180')
 
         #function
         def back() :
@@ -72,9 +72,9 @@ class SignUpWin():
             l1 = LoginWindow()
         
         def addMember():
-            dataentry = [self.entryTextFn.get(), self.entryTextLn.get(),self.entryTextUn.get(),self.entryTextPass.get()]
+            dataentry = [self.entryTextFn.get(), self.entryTextLn.get(),self.entryTextId.get(),self.entryTextUn.get(),self.entryTextPass.get()]
             aregister = Register(dataentry)
-        
+
             retmsg = aregister.register()
 
             if retmsg[0] == "0" :
@@ -85,21 +85,25 @@ class SignUpWin():
                 self.entryTextLn.set("")
                 self.entryTextUn.set("")
                 self.entryTextPass.set("")
+                self.entryTextId.set("")
                 print('Error')
-                self.label_status.config(text=retmsg[1])
+            self.label_status.config(text=retmsg[1])
 
         #create components
         self.label_fname = Label(self.cwin, text = "First Name :")
         self.label_lname = Label(self.cwin, text = "Last Name :")
+        self.label_id = Label(self.cwin, text="Identification Number :")
         self.label_username = Label(self.cwin,text = "username :")
         self.label_password = Label(self.cwin, text = "password :")
         self.label_status = Label(self.cwin,text="")
         self.entryTextFn = StringVar()
         self.entryTextLn = StringVar()
+        self.entryTextId = StringVar()
         self.entryTextUn = StringVar()
         self.entryTextPass = StringVar()
         self.entry_boxFn = Entry(self.cwin,textvariable = self.entryTextFn)
         self.entry_boxLn = Entry(self.cwin,textvariable = self.entryTextLn)
+        self.entry_boxId = Entry(self.cwin,textvariable = self.entryTextId)
         self.entry_boxUn = Entry(self.cwin,textvariable= self.entryTextUn)
         self.entry_boxPass = Entry(self.cwin,textvariable = self.entryTextPass,show = "•")
         self.button_back = Button(self.cwin,text="Back",command=back)
@@ -108,14 +112,16 @@ class SignUpWin():
         #put every components in window
         self.label_fname.grid(row=0,column=0)
         self.label_lname.grid(row=1,column=0)
-        self.label_username.grid(row=2,column=0)
-        self.label_password.grid(row=3,column=0)
+        self.label_id.grid(row=2,column=0)
+        self.label_username.grid(row=3,column=0)
+        self.label_password.grid(row=4,column=0)
         self.entry_boxFn.grid(row=0,column=1)
         self.entry_boxLn.grid(row=1,column=1)
-        self.entry_boxUn.grid(row=2,column=1)
-        self.entry_boxPass.grid(row=3,column=1)
-        self.button_OK.grid(row=4,column=1)
-        self.button_back.grid(row=5,column=1)
+        self.entry_boxId.grid(row=2,column=1)
+        self.entry_boxUn.grid(row=3,column=1)
+        self.entry_boxPass.grid(row=4,column=1)
+        self.button_OK.grid(row=5,column=1)
+        self.button_back.grid(row=6,column=1)
 
         self.cwin.mainloop()
 

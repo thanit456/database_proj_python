@@ -2,8 +2,8 @@ import mysql.connector
 from mysql.connector import Error
 
 #hyperparameter
-databaseName = 'joo'
-password = 'win448800'
+databaseName = 'too_superstore'
+password = 'boss1234'
 
 class Login() :
     def __init__(self, data) :
@@ -23,7 +23,7 @@ class LoginDB() :
         try:
             connection = mysql.connector.connect(host='localhost',database=databaseName,user='root',password=password)
             objdata = (wkey,)
-            sqlQuery = "select * from "+"accountdetail"+" where Username = %s"
+            sqlQuery = "select * from "+"member_t"+" where Username = %s"
             
             cursor = connection.cursor()
             cursor.execute(sqlQuery, objdata)
@@ -34,7 +34,7 @@ class LoginDB() :
             retmsg = ["1", "Error"]
         else :
             retmsg = ["1", "Username Not Found"]
-            if records[1] == wpass :
+            if records[-1] == wpass :
                 retmsg = ["0", "Correct Password"]
             else :
                 retmsg = ["1", "Incorrect Password"]
@@ -60,20 +60,14 @@ class RegisterDB() :
         wdata=self.data
 
         try:
-            connection = mysql.connector.connect(host='localhost', database=databasename, user='root', password='boss1234')
+            connection = mysql.connector.connect(host='localhost', database=databasename, user='root', password=password)
        
-            objdata1 = (wdata[2], wdata[3])
-            objdata2 = (wdata[0], wdata[1])
-            table1 = 'member_t'
-            
-            sqlQuery1 = "insert into "+ "accountdetail"+" (Username, Password) " \
-                               "values (%s,%s)"
-            sqlQuery2 = "insert into "+table1+" (MemberIDNumber, FirstName, LastName, StartDate, ExpireDate, MemberPoints) " \
-                                "values ('1234567891011',%s,%s,'2019-11-20','2020-11-20',0)"
+            objdata = (wdata[2],wdata[0],wdata[1], wdata[3],wdata[4])
+            sqlQuery = "insert into "+"member_t"+" (MemberIDNumber, FirstName, LastName, StartDate, ExpireDate, MemberPoints, UserName, Password) " \
+                                "values (%s,%s,%s,'2019-11-23','2020-11-23',0,%s,%s)"
             
             cursor = connection.cursor()
-            cursor.execute(sqlQuery1, objdata1)
-            cursor.execute(sqlQuery2, objdata2)
+            cursor.execute(sqlQuery, objdata)
             
             connection.commit()
 
@@ -84,7 +78,6 @@ class RegisterDB() :
         finally:
             if (connection.is_connected()):
                 connection.close()
-                cursor.close()
             return retmsg
     
 class Promotion() :
@@ -121,3 +114,37 @@ class PromotionDB() :
                 connection.close()
                 cursor.close()
             return self.records
+
+class SelectMemInfo() :
+    def __init__(self, data) :
+        self.SelectMemInfoDataObj = SelectMemInfoDB(data)
+    def showmeminfo(self) :
+        return self.SelectMemInfoDataObj.MemberInfo(databaseName)
+
+class SelectMemInfoDB() :
+    def __init__(self,data):
+        self.data = data
+        self.records = []
+    def MemberInfo(self, databasename) :
+        wkey = str(self.data[0])
+
+        try:
+            connection = mysql.connector.connect(host='localhost',database=databaseName,user='root',password=password)
+            objdata = (wkey,)
+            sqlQuery = "select * from "+"member_t"+" where Username = %s"
+            
+            cursor = connection.cursor()
+            cursor.execute(sqlQuery, objdata)
+            records = cursor.fetchone()
+            self.data = records
+                    
+        except:
+            retmsg = ["1", "Error"]
+            print(E)
+        else :
+            retmsg = ["0", " ShowInfo"]
+        finally:
+            if (connection.is_connected()):
+                connection.close()
+                cursor.close()
+            return records
