@@ -232,7 +232,7 @@ class AddPromotionWin() :
         self.label_mempoint = Label(self.root,text="Member point :")
         self.label_status = Label(self.root)
 
-        self.entry_branch_id = Entry(self.root,textvariable=self.text_branch)
+        self.entry_branch_id = Entry(self.root,textvariable=self.text_branch_id)
         self.entry_product_id = Entry(self.root,textvariable=self.text_product_id)
         self.entry_start_date = Entry(self.root,textvariable=self.text_start_date)
         self.entry_end_date = Entry(self.root,textvariable=self.text_end_date)
@@ -298,7 +298,7 @@ class EditOrDeletePromotionWin() :
         self.button_delete.grid(row=3,column=1)
         
         self.label_status = Label(self.root)
-        self.label_status.grid(row=4, column=2)
+        self.label_status.grid(row=3, column=2)
 
         self.root.mainloop()
     def deletePromotionByID(self):
@@ -345,7 +345,7 @@ class EditPromotionWin() :
         self.label_mempoint = Label(self.root,text="Member point :")
         self.label_status = Label(self.root)
 
-        self.entry_branch_id = Entry(self.root,textvariable=self.text_product_id)
+        self.entry_branch_id = Entry(self.root,textvariable=self.text_branch_id)
         self.entry_product_id = Entry(self.root,textvariable=self.text_product_id)
         self.entry_start_date = Entry(self.root,textvariable=self.text_start_date)
         self.entry_end_date = Entry(self.root,textvariable=self.text_end_date)
@@ -353,6 +353,7 @@ class EditPromotionWin() :
         self.entry_mempoint = Entry(self.root,textvariable=self.text_mempoint)
 
         self.button_EDIT = Button(self.root,text="Submit")
+
 
         self.label_product.grid(row=0,column=0)
         self.entry_product_id.grid(row=0,column=1)
@@ -393,47 +394,53 @@ class SearchPromotionWin():
     def __init__(self):
         self.root = tk.Tk()
         self.root.title('Search Promotion')
-        self.root.geometry('720x460')
+        self.root.geometry('850x460')
         
+        self.text_branch_id = StringVar()
+        self.text_branch_id.set("")
         self.text_promotion = StringVar()
         self.text_promotion.set("")
         self.text_product_id =  StringVar()
         self.text_product_id.set("")
 
+        self.label_branch_id= Label(self.root, text="Branch ID :")
         self.label_promotion = Label(self.root, text="Promotion ID :")
         self.label_product = Label(self.root,text="Product ID :")
+        self.entry_branch_id = Entry(self.root,textvariable=self.text_branch_id)
         self.entry_promotion = Entry(self.root,textvariable=self.text_promotion)
         self.entry_product_id = Entry(self.root,textvariable=self.text_product_id)
 
-        self.label_promotion.place(x=50,y=70)
-        self.entry_promotion.place(x=140,y=70)
-        self.label_product.place(x=400,y=70)
-        self.entry_product_id.place(x=475,y=70)
+        self.label_promotion.place(x=40,y=70)
+        self.entry_promotion.place(x=130,y=70)
+        self.label_product.place(x=320,y=70)
+        self.entry_product_id.place(x=400,y=70)
+        self.label_branch_id.place(x=590,y=70)
+        self.entry_branch_id.place(x=660,y=70)
 
         def show():
             self.queryList = self.queryPromotion()
             leaf_nodes = tree.get_children()
             for i in leaf_nodes:
                 tree.delete(i)
-            for promotionid, startdate, enddate, percent, mempoint, productid in self.queryList:
-                tree.insert("", "end", values=(promotionid, startdate, enddate, percent, mempoint, productid))
+            for promotionid, startdate, enddate, percent, mempoint, productid, branchid in self.queryList:
+                tree.insert("", "end", values=(promotionid, startdate, enddate, percent, mempoint, productid, branchid))
                 
 
         label = tk.Label(self.root, text="Promotion", font=("Arial",24))
-        label.place(x=280,y=10)
+        label.place(x=350,y=10)
         # create Treeview with 3 columns
-        cols = ('Promotion ID', 'Start Date', 'End Date', 'Discount', 'Member Point', 'ProductID')
-        tree = ttk.Treeview(self.root, columns=cols, show='headings',padding=20)
+        cols = ('Promotion ID', 'Start Date', 'End Date', 'Discount', 'Member Point', 'ProductID', 'BranchID')
+        tree = ttk.Treeview(self.root, columns=cols, show='headings',padding=15)
         # set column headings
         for col in cols:
             tree.column(col,width=100,stretch=NO)
             tree.heading(col,text=col)
-        tree.place(x=30,y=100,width=660, height=300)
+        tree.place(x=30,y=100,width=800, height=300)
 
         showDetail = tk.Button(self.root, text="Show Detail", width=15, command=show)
-        showDetail.place(x=140,y=420)
+        showDetail.place(x=180,y=420)
         closeButton = tk.Button(self.root, text="Close", width=15, command=exit)
-        closeButton.place(x=420,y=420)
+        closeButton.place(x=460,y=420)
 
 
         self.root.mainloop()
@@ -441,7 +448,8 @@ class SearchPromotionWin():
     # self.cwin.title("Submitted")
         dataentry = [
             self.entry_promotion.get(),
-            self.entry_product_id.get()
+            self.entry_product_id.get(),
+            self.entry_branch_id.get()
         ]
         aPromotion = Promotion(dataentry)
         return aPromotion.showTable()

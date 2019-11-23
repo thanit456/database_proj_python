@@ -4,7 +4,7 @@ from mysql.connector import Error
 # hyperparameter
 databaseName = 'too_superstore'
 tableName = 'promotion'
-password = 'boss1234'
+password = '093128156'
 
 f = open('countPromotion.txt')
 # global variable
@@ -53,20 +53,18 @@ class PromotionDB() :
 
             # insert into promotion table  
             sqlQuery = "insert into " + table +  " values ( '"+ str(countPromotionID) + "', '" + wdata[0] + \
-                        "', '" + wdata[1] + "', " + wdata[2] + ", " + wdata[3] + ", '" + wdata[4]  + "')"
+                        "', '" + wdata[1] + "', " + wdata[2] + ", " + wdata[3] + ", '" + wdata[4]  + "') ;"
 
+            print('Query : ', sqlQuery)
             cursor = connection.cursor()
             cursor.execute(sqlQuery)
-
             connection.commit()
 
             # ! insert into salesat table
-            sup_sqlQuery = "insert into " + table + " values ( '" + wdata[0] + "',  '" + wdata[5] + "' )"
+            sup_sqlQuery = "insert into salesat  values ( '" + str(countPromotionID) + "',  '" + wdata[5] + "' );"
             print('Sub query : ', sup_sqlQuery)
-            
             cursor = connection.cursor()
             cursor.execute(sup_sqlQuery)
-
             connection.commit()
 
 
@@ -95,6 +93,21 @@ class PromotionDB() :
             wdata = self.data
             objdata = (wdata[0], wdata[1], wdata[2], wdata[3], wdata[4], wdata[5], wdata[6])
 
+             # ! delete old salesat
+            delete_old_sqlQuery = 'delete from sales where PromotionID = "' + wdata[0] + '", BranchID = "' + wdata[6]  + '"'
+            print('Delete old salesat : ', delete_old_sqlQuery)
+            cursor = connection.cursor()
+            cursor.execute(delete_old_sqlQuery)
+            connection.commit()
+
+            # ! inserte new salesat 
+            insert_new_sqlQuery = 'insert into salesat values ("' + wdata[0] + '", "' + wdata[6] + '")'
+            print('Insert new salesat : ', insert_new_sqlQuery)
+            cursor = connection.cursor()
+            cursor.execute(insert_new_sqlQuery)
+            connection.commit()
+
+            # ? update promotion
             sqlQuery = 'update promotion' + \
                     ' set StartDate = \'' + wdata[1] + "'" + \
                     ', EndDate = \'' + wdata[2]  + "'" + \
@@ -102,11 +115,10 @@ class PromotionDB() :
                     ', MemberPointCost = ' + wdata[4] + \
                     ', ProductID = \'' + wdata[5] + '\' ' + \
                     'where PromotionID = \'' + wdata[0] + "'"
-
+            print('Edit : ', sqlQuery)
             cursor = connection.cursor()
             cursor.execute(sqlQuery)
-
-            connection.commit()
+            connection.commit()    
             
 
         except:
@@ -127,19 +139,19 @@ class PromotionDB() :
        
             objdata = (wdata[0],)
             
-            sqlQuery = "DELETE FROM "+ table + " WHERE PromotionID = '" + wdata[0] + "'"
-            print(sqlQuery)
-
-            cursor = connection.cursor()
-            cursor.execute(sqlQuery)
-            connection.commit()
 
             sup_sqlQuery = "DELETE FROM salesat WHERE PromotionID = '" + wdata[0] + "'"
             print(sup_sqlQuery)
-
             cursor = connection.cursor()
             cursor.execute(sup_sqlQuery)
             connection.commit()
+
+            sqlQuery = "DELETE FROM "+ table + " WHERE PromotionID = '" + wdata[0] + "'"
+            print(sqlQuery)
+            cursor = connection.cursor()
+            cursor.execute(sqlQuery)
+            connection.commit()
+           
 
         except:
             retmsg = ["1", "delete error"]
@@ -161,17 +173,17 @@ class PromotionDB() :
 
             sqlQuery = 'select * from ' + table + " NATURAL JOIN salesat"
             if (wdata[0].strip() != '' and wdata[1].strip() != '' and wdata[2].strip() != ''):
-                sqlQuery += ' where PromotionID = "' + wdata[0].strip() + '" , ProductID = "' + wdata[1].strip()  + '", BranchID = "' + wdata[2].strip() + '"'
+                sqlQuery += ' where PromotionID = "' + wdata[0].strip() + '" and ProductID = "' + wdata[1].strip()  + '"and BranchID = "' + wdata[2].strip() + '"'
             elif (wdata[0].strip() != '' and wdata[1].strip() != ''):
-                sqlQuery += ' where PromotionID = "' + wdata[0].strip() + '" , ProductID = "' + wdata[1].strip() + '"'
+                sqlQuery += ' where PromotionID = "' + wdata[0].strip() + '" and ProductID = "' + wdata[1].strip() + '"'
             elif (wdata[0].strip() != '' and wdata[2].strip() != ''):
-                sqlQuery += ' where PromotionID = "' + wdata[0].strip() + '" , BranchID = "' + wdata[1].strip() + '"'
+                sqlQuery += ' where PromotionID = "' + wdata[0].strip() + '" and BranchID = "' + wdata[1].strip() + '"'
             elif (wdata[1].strip() != '' and wdata[2].strip() != ''):
-                sqlQuery += ' where ProductID = "' + wdata[1].strip()  + '" ,  BranchID = "' + wdata[2].strip() + '"'
+                sqlQuery += ' where ProductID = "' + wdata[1].strip()  + '" and  BranchID = "' + wdata[2].strip() + '"'
             elif (wdata[0].strip() != ''):
-                sqlQuery += ' where ProductID = "' + wdata[0].strip() + '"'
+                sqlQuery += ' where PromotionID = "' + wdata[0].strip() + '"'
             elif (wdata[1].strip() != ''):
-                sqlQuery += ' where PromotionID = "' + wdata[1].strip() + '"'
+                sqlQuery += ' where ProductID = "' + wdata[1].strip() + '"'
             elif (wdata[2].strip() != ''):
                 sqlQuery += ' where BranchID = "' + wdata[2].strip() + '"'
 
