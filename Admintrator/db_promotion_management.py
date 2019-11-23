@@ -48,17 +48,11 @@ class PromotionDB() :
 
         try:
             connection = mysql.connector.connect(host='localhost',database=databasename,user='root',password=password)
-          
-            countPromotionID += 1  
 
             objdata = (wdata[0], wdata[1], wdata[2], wdata[3], wdata[4])
                   
             sqlQuery = "insert into " + table +  " values ( '"+ str(countPromotionID) + "', '" + wdata[0] + \
                         "', '" + wdata[1] + "', " + wdata[2] + ", " + wdata[3] + ", '" + wdata[4]  + "')"
-        
-            f = open('countPromotion.txt', 'w')
-            f.write(str(countPromotionID))
-            f.close()
 
             cursor = connection.cursor()
             cursor.execute(sqlQuery)
@@ -70,6 +64,10 @@ class PromotionDB() :
             retmsg = ["1", "writing error"]
         else :
             retmsg = ["0", "writing done"]
+            countPromotionID += 1
+            f = open('countPromotion.txt', 'w')
+            f.write(str(countPromotionID))
+            f.close()
         finally:
             if (connection.is_connected()):
                 connection.close()
