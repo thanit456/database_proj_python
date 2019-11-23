@@ -1,30 +1,13 @@
 from tkinter import *
 from db_mainmember import *
 
-#global variables
-global user,branchLists
-user = ""
-branchLists = ["B1","B2","B3","B4","B5","B6"]
-
 class LoginWindow() :
     def __init__ (self):
         self.cwin = Tk()
         self.cwin.title("Login")
-        self.cwin.geometry('300x200')
+        self.cwin.geometry('315x85')
 
-        self.entryText1 =  StringVar()
-        self.entryText1.set("")
-
-        self.entryText2 =  StringVar()
-        self.entryText2.set("")
-
-        self.label_username = Label(self.cwin,text="Username :")
-        self.label_password = Label(self.cwin,text="Password :")
-        self.label_status = Label(self.cwin,text="")
-
-        self.entry_username = Entry(self.cwin,textvariable=self.entryText1)
-        self.entry_password = Entry(self.cwin,textvariable=self.entryText2 ,show = "•")
-
+        #function
         def checklogin() :
             dataentry = [self.entryText1.get(), self.entryText2.get()]
             alogin = Login(dataentry)
@@ -33,7 +16,7 @@ class LoginWindow() :
 
             if retmsg[0] == "0" :
                 self.cwin.destroy()
-                m1 = MenuWin()
+                m1 = MenuWithLoginWin()
             
             else :
                 print("Error")
@@ -43,46 +26,46 @@ class LoginWindow() :
 
         def signUp():
                 self.cwin.destroy()
-                su = signUpWin()
+                su = SignUpWin()
 
+        def back():
+            self.cwin.destroy()
+            m1 = MenuWin()
+
+        #create components
+        self.entryText1 =  StringVar()
+        self.entryText1.set("")
+        self.entryText2 =  StringVar()
+        self.entryText2.set("")
+        self.label_username = Label(self.cwin,text="Username :")
+        self.label_password = Label(self.cwin,text="Password :")
+        self.label_status = Label(self.cwin,text="")
+        self.entry_username = Entry(self.cwin,textvariable=self.entryText1)
+        self.entry_password = Entry(self.cwin,textvariable=self.entryText2 ,show = "•")
         self.button_login = Button(self.cwin,text="Login",command=checklogin) # need to change to real login compare from database
         self.button_register = Button(self.cwin,text="Sign up",command=signUp)
+        self.button_back = Button(self.cwin,text=" Back",command=back)
 
+        #put every components in window
         self.label_username.grid(row=0,column=0)
         self.entry_username.grid(row=0,column=1)
         self.label_password.grid(row=1,column=0)
         self.entry_password.grid(row=1,column=1)
-        self.button_login.grid(row=2,column=0)
-        self.button_register.grid(row=2,column=1)
+        self.button_login.grid(row=2,column=1)
+        self.button_register.grid(row=2,column=0)
+        self.button_back.grid(row=2,column=2)
         self.label_status.grid(row=3,column=1)
+
         self.cwin.mainloop()
 
-class signUpWin():
+class SignUpWin():
     def __init__(self):
         self.cwin = Tk()
-        self
         self.cwin.title("RegisterWindow")
-        self.cwin.geometry('300x200')
+        self.cwin.geometry('265x170')
 
-        self.label_fname = Label(self.cwin, text = "First Name :")
-        self.label_lname = Label(self.cwin, text = "Last Name :")
-        self.label_username = Label(self.cwin,text = "username :")
-        self.label_password = Label(self.cwin, text = "password :")
-        self.label_status = Label(self.cwin,text="")
-
-        self.entryTextFn = StringVar()
-        self.entryTextLn = StringVar()
-        self.entryTextUn = StringVar()
-        self.entryTextPass = StringVar()
-
-        
-        self.entry_boxFn=Entry(self.cwin,textvariable = self.entryTextFn)
-        self.entry_boxLn=Entry(self.cwin,textvariable = self.entryTextLn)
-        self.entry_boxUn=Entry(self.cwin,textvariable= self.entryTextUn)
-        self.entry_boxPass=Entry(self.cwin,textvariable = self.entryTextPass,show = "•")
-
-        def printInfo() :
-            print("Member name : " + self.entry_boxFn.get() + " "+ self.entry_boxLn.get()+ "\n" + "Password : " + self.entry_boxPass.get() + " ")
+        #function
+        def back() :
             self.cwin.destroy()
             l1 = LoginWindow()
         
@@ -93,40 +76,108 @@ class signUpWin():
             retmsg = aregister.register()
 
             if retmsg[0] == "0" :
-                self.entryTextFn.set("")               
+                self.cwin.destroy()
+                sw1 = SucessWin()
+            else:
+                self.entryTextFn.set("")
                 self.entryTextLn.set("")
                 self.entryTextUn.set("")
                 self.entryTextPass.set("")
-            else:
                 print('Error')
-            self.label_status.config(text=retmsg[1])
+                self.label_status.config(text=retmsg[1])
 
+        #create components
+        self.label_fname = Label(self.cwin, text = "First Name :")
+        self.label_lname = Label(self.cwin, text = "Last Name :")
+        self.label_username = Label(self.cwin,text = "username :")
+        self.label_password = Label(self.cwin, text = "password :")
+        self.label_status = Label(self.cwin,text="")
+        self.entryTextFn = StringVar()
+        self.entryTextLn = StringVar()
+        self.entryTextUn = StringVar()
+        self.entryTextPass = StringVar()
+        self.entry_boxFn = Entry(self.cwin,textvariable = self.entryTextFn)
+        self.entry_boxLn = Entry(self.cwin,textvariable = self.entryTextLn)
+        self.entry_boxUn = Entry(self.cwin,textvariable= self.entryTextUn)
+        self.entry_boxPass = Entry(self.cwin,textvariable = self.entryTextPass,show = "•")
+        self.button_back = Button(self.cwin,text="Back",command=back)
         self.button_OK=Button(self.cwin, text ="Sign up" ,command = addMember)
 
+        #put every components in window
         self.label_fname.grid(row=0,column=0)
         self.label_lname.grid(row=1,column=0)
         self.label_username.grid(row=2,column=0)
         self.label_password.grid(row=3,column=0)
-        
         self.entry_boxFn.grid(row=0,column=1)
         self.entry_boxLn.grid(row=1,column=1)
         self.entry_boxUn.grid(row=2,column=1)
         self.entry_boxPass.grid(row=3,column=1)
-
         self.button_OK.grid(row=4,column=1)
+        self.button_back.grid(row=5,column=1)
 
-        self.entry_boxUn.mainloop()
-   
+        self.cwin.mainloop()
+
+class SucessWin():
+    def __init__(self):
+        self.cwin = Tk()
+        self.cwin.title("Sucess sign up")
+        self.cwin.geometry('350x100')
+
+        #function
+        def goback():
+            self.cwin.destroy()
+            l1 = LoginWindow()
+
+        #create components
+        self.label_indent = Label(self.cwin,text="")
+        self.label_show_message = Label(self.cwin,text="You are now member of Too's Superstore.")
+        self.button_ok = Button(self.cwin,text="OK, back to Login",command=goback)
+        
+        #put every components in window
+        self.label_indent.pack()
+        self.label_show_message.pack()
+        self.button_ok.pack()
+
+        self.cwin.mainloop()
+
+
 
 class MenuWin() :
     def __init__(self) :
         self.root = Tk()
         self.root.title("Member Main Menu")
-        self.root.geometry('500x300')
+        self.root.geometry('375x120')
         
-        self.header = Label(self.root, text="Main Menu")
+        #function
+        def popSearchProductWin() :
+            s1 = SearchProductWin("Product Search")
+        def popSearchPromotionWin() :
+            s2 = SearchPromotionWin("Promotion Search")
+        def login():
+            self.root.destroy()
+            l1 = LoginWindow()
+        
+        #create components
+        self.header = Label(self.root, text="Member Main Menu")
+        self.searchProductButton = Button(self.root, text="Search Product by Branch Name and  Product Name", command=popSearchProductWin)
+        self.searchPromotionButton = Button(self.root, text="Search Promotion by Branch Name and Product Name", command=popSearchPromotionWin)
+        self.loginButton = Button(self.root,text="Log in",command=login)
+        
+        #put every components in window
         self.header.pack()
+        self.searchProductButton.pack(side=TOP)
+        self.searchPromotionButton.pack(side=TOP)
+        self.loginButton.pack(side=TOP)
 
+        self.root.mainloop()
+
+class MenuWithLoginWin() :
+    def __init__(self) :
+        self.root = Tk()
+        self.root.title("Customer Main Menu")
+        self.root.geometry('370x150')
+      
+        #function
         def popSearchProductWin() :
             s1 = SearchProductWin("Product Search")
         def popSearchPromotionWin() :
@@ -136,18 +187,20 @@ class MenuWin() :
             sm1 = ShowMemInfo("MemberInfo")
         def logout():
             self.root.destroy()
-            lg = LoginWindow()
+            l1 = MenuWin()
         
+        #create components
+        self.header = Label(self.root, text="Customer Main Menu")
         self.searchProductButton = Button(self.root, text="Search Product by Branch Name and  Product Name", command=popSearchProductWin)
-        self.searchProductButton.pack(side=TOP)
-
         self.searchPromotionButton = Button(self.root, text="Search Promotion by Branch Name and Product Name", command=popSearchPromotionWin)
-        self.searchPromotionButton.pack(side=TOP)
-
         self.showMemberInfoButton = Button(self.root,text="Member Info",command=showMemberInfo)
-        self.showMemberInfoButton.pack(side=TOP)
-
         self.LogoutButton = Button(self.root,text="Log out",command=logout)
+
+        #put every components in window
+        self.header.pack()
+        self.searchProductButton.pack(side=TOP)
+        self.searchPromotionButton.pack(side=TOP)
+        self.showMemberInfoButton.pack(side=TOP)
         self.LogoutButton.pack(side=TOP)
 
         self.root.mainloop()
@@ -157,77 +210,62 @@ class MenuWin() :
 
 class ShowMemInfo() :
     def __init__(self,title):
-        
         self.cwin = Tk()
         self.cwin.title(title)
         self.cwin.geometry('450x200')
 
+        #function
+        def backToMenu() :
+            self.cwin.destroy()
+            m1 = MenuWithLoginWin()
+
+        #create components
         self.label_name = Label(self.cwin,text="Name :")
         self.label_mem_name = Label(self.cwin,text="Pasit")
         self.label_lname = Label(self.cwin,text="Last Name :")
         self.label_mem_lname = Label(self.cwin,text="Laohawarutchai")
-
         self.label_sdate = Label(self.cwin,text="Start Date :")
         self.label_mem_sdate = Label(self.cwin,text="30/09/1998")
         self.label_edate = Label(self.cwin,text="Expired date :")
         self.label_mem_edate = Label(self.cwin,text="30/09/1999")
-
         self.button_purchaseHis = Button(self.cwin,text="Show Purchase History",command = self.cwin.destroy) #need to change command to go to history page of that user
-       
-        def backToMenu() :
-            self.cwin.destroy()
-            m1 = MenuWin()
-
         self.button_back = Button(self.cwin,text="Back",command=backToMenu)
         
+        #put every components in window
         self.label_name.grid(row=0,column=0)
         self.label_mem_name.grid(row=0,column=1)
-        self.label_lname.grid(row=0,column=2)
-        self.label_mem_lname.grid(row=0,column=3)
+        self.label_lname.grid(row=1,column=0)
+        self.label_mem_lname.grid(row=1,column=1)
+        self.label_sdate.grid(row=2,column=0)
+        self.label_mem_sdate.grid(row=2,column=1)
+        self.label_edate.grid(row=3,column=0)
+        self.label_mem_edate.grid(row=3,column=1)
+        self.button_purchaseHis.grid(row=4,column=0)
+        self.button_back.grid(row=5,column=0)
 
-        self.label_sdate.grid(row=1,column=0)
-        self.label_mem_sdate.grid(row=1,column=1)
-        self.label_edate.grid(row=1,column=2)
-        self.label_mem_edate.grid(row=1,column=3)
-
-        self.button_purchaseHis.grid(row=2,column=1)
-        self.button_back.grid(row=3,column=1)
         self.cwin.mainloop()
 
 class SearchPromotionWin() :
     def __init__(self,title):
         self.cwin = Toplevel()
         self.cwin.title(title)
-        self.cwin.geometry('300x200')
-
-        self.branchName = ""
-
-        self.variable = StringVar()
-        self.variable.set(branchLists[0])
-        self.opt = OptionMenu(self.cwin,self.variable,*branchLists)
-        self.variable.trace_add("write",lambda *args : print(self.variable.get()))
+        self.cwin.geometry('300x100')
         
-        #this will get the value of optmenu when submit need to implement to send branchname and productname to DBfunction
+        #function
         def callback():
-            self.branchName = self.variable.get()
-            print(self.branchName)
             self.cwin.destroy()
-
-        self.label_branchName = Label(self.cwin,text="Branch Name :")
         
+        #create components
         self.label_name = Label(self.cwin,text="Product Name :")
         self.entry_name = Entry(self.cwin)
-
-        self.label_branchName.grid(row=0,column=0)
-        self.opt.grid(row=0,column=1)
-        self.label_name.grid(row=1,column=0)
-        self.entry_name.grid(row=1,column=1)
-        
         self.button_submit=Button(self.cwin, text ="SEARCH", command=callback) #need to add command for search
         self.button_exit=Button(self.cwin, text="EXIT", command=self.cwin.destroy)
-
-        self.button_submit.grid(row=2,column=1)
-        self.button_exit.grid(row=3, column=1)
+        
+        #put every components in window
+        self.label_name.grid(row=0,column=0)
+        self.entry_name.grid(row=0,column=1)
+        self.button_submit.grid(row=1,column=1)
+        self.button_exit.grid(row=2, column=1)
 
 
 
@@ -235,39 +273,25 @@ class SearchProductWin() :
     def __init__(self, title) :
         self.cwin = Toplevel()
         self.cwin.title(title)
-        self.cwin.geometry('300x200')
-
-        self.branchName = ""
+        self.cwin.geometry('300x100')
         
-        self.label_branch=Label(self.cwin, text="Branch Name :")
-        self.label_name=Label(self.cwin, text="Product Name :")
-
-        self.variable = StringVar()
-        self.variable.set(branchLists[0])
-        self.opt = OptionMenu(self.cwin,self.variable,*branchLists)
-        self.variable.trace_add("write",lambda *args : print(self.variable.get()))
-        
-        #this will get the value of optmenu when submit need to implement to send branchname and productname to DBfunction
+        #function
         def callback():
-            self.branchName = self.variable.get()
-            print(self.branchName)
             self.cwin.destroy()
 
+        #create components
+        self.label_name=Label(self.cwin, text="Product Name :")
         self.entry_name=Entry(self.cwin)
-
         self.button_submit=Button(self.cwin, text ="SEARCH", command=callback) #need to add command for search
         self.button_exit=Button(self.cwin, text="EXIT", command=self.cwin.destroy)
 
-        self.label_branch.grid(row=0,column=0)
-        self.label_name.grid(row=1,column=0)
-        
-        self.opt.grid(row=0,column=1)
-        self.entry_name.grid(row=1,column=1)
-
-        self.button_submit.grid(row=2,column=1)
-        self.button_exit.grid(row=3, column=1)
+        #put every components in window
+        self.label_name.grid(row=0,column=0)
+        self.entry_name.grid(row=0,column=1)
+        self.button_submit.grid(row=1,column=1)
+        self.button_exit.grid(row=2, column=1)
 
 
 
 
-Mainmenu = LoginWindow()
+Mainmenu = MenuWin()
