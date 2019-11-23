@@ -25,7 +25,7 @@ class LoginWindow() :
                 print("Error")
                 self.entryText1.set("")               
                 self.entryText2.set("")
-            self.label_status.config(text=retmsg[1])
+                self.label_status.config(text=retmsg[1])
 
         def signUp():
                 self.cwin.destroy()
