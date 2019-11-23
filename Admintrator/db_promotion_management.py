@@ -4,7 +4,7 @@ from mysql.connector import Error
 # hyperparameter
 databaseName = 'too_superstore'
 tableName = 'promotion'
-password = 'boss1234'
+password = '093128156'
 
 # global variable
 countPromotionID = 1
@@ -103,6 +103,7 @@ class PromotionDB() :
                     ', ProductID = \'' + wdata[5] + '\' ' + \
                     'where PromotionID = \'' + wdata[0] + "'"
 
+            print(' :: EDIT :: ')
             print(sqlQuery)
 
             cursor = connection.cursor()
@@ -234,14 +235,16 @@ class PromotionDB() :
         
 
             if (wdata[0].strip() != '' and wdata[1].strip() != ''):
-                sqlQuery = 'select * from ' + table + ' where PromotionID = ' + wdata[0].strip() + ' , ProductID = ' + wdata[1].strip() 
+                sqlQuery = 'select * from ' + table + ' where PromotionID = "' + wdata[0].strip() + '" , ProductID = "' + wdata[1].strip()  + '"'
             elif (wdata[0].strip() != ''):
-                sqlQuery = 'select * from ' + table + ' where PromotionID = ' + wdata[0].strip()
+                sqlQuery = 'select * from ' + table + ' where PromotionID = "' + wdata[0].strip() + '"'
             elif (wdata[1].strip() != ''):
-                sqlQuery = 'select * from' + table + ' where ProductID = ' + wdata[1].strip()  
+                sqlQuery = 'select * from' + table + ' where ProductID = "' + wdata[1].strip()  + '"'
             else:
                 sqlQuery = "select * from " + table            
-            
+            print(sqlQuery)
+
+
             cursor = connection.cursor()
             cursor.execute(sqlQuery)
             self.records = cursor.fetchall()
