@@ -3,7 +3,7 @@ from mysql.connector import Error
 
 #hyperparameter
 databaseName = 'too_superstore'
-password = 'win448800'
+password = 'boss1234'
 
 class Login() :
     def __init__(self, data) :
@@ -187,9 +187,9 @@ class ProductDB() :
             wdata = self.data
 
             if (wdata[0].strip() == ''):
-                sqlQuery = "SELECT product.ProductID ,product.Name,product.Description,branch.Name,bkeeps.Quantity FROM product INNER JOIN bkeeps ON product.ProductID = bkeeps.ProductID INNER JOIN branch ON bkeeps.BranchID = branch.BranchID;"
+                sqlQuery = "SELECT product.ProductID ,product.Name,product.Description,branch.Name,bkeeps.Quantity, product.MemberPointGain FROM product INNER JOIN bkeeps ON product.ProductID = bkeeps.ProductID INNER JOIN branch ON bkeeps.BranchID = branch.BranchID;"
             else :
-                sqlQuery = "SELECT product.ProductID ,product.Name,product.Description,branch.Name,bkeeps.Quantity FROM product INNER JOIN bkeeps ON product.ProductID = bkeeps.ProductID INNER JOIN branch ON bkeeps.BranchID = branch.BranchID WHERE product.Name="+"'"+str(wdata[0].strip())+"'"+";"
+                sqlQuery = "SELECT product.ProductID ,product.Name,product.Description,branch.Name,bkeeps.Quantity, product.MemberPointGain FROM product INNER JOIN bkeeps ON product.ProductID = bkeeps.ProductID INNER JOIN branch ON bkeeps.BranchID = branch.BranchID WHERE product.Name="+"'"+str(wdata[0].strip())+"'"+";"
             cursor = connection.cursor()
             cursor.execute(sqlQuery)
             self.records = cursor.fetchall()

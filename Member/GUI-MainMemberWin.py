@@ -315,7 +315,7 @@ class SearchProductWin() :
     def __init__(self, title) :
         self.cwin = Toplevel()
         self.cwin.title(title)
-        self.cwin.geometry('800x460')
+        self.cwin.geometry('890x460')
         
         #function
         def callback():
@@ -326,19 +326,19 @@ class SearchProductWin() :
             self.leaf_nodes = self.tree.get_children()
             for i in self.leaf_nodes:
                 self.tree.delete(i)
-            for i,(p,n,d,b,q) in enumerate(self.queryList,start=1):
-                self.tree.insert("","end", values=(i,p,n,d,b,q))
+            for i,(p,n,d,b,q,m) in enumerate(self.queryList,start=1):
+                self.tree.insert("","end", values=(i,p,n,d,b,q,m))
         
         self.table_label = Label(self.cwin,text="Product", font=("Arial",24))
-        self.table_label.place(x=320,y=10)
+        self.table_label.place(x=360,y=10)
         
         #table component
-        self.cols = ('No.','Product ID','Name','Description','Branch','Quantity')
+        self.cols = ('No.','Product ID','Name','Description','Branch','Quantity','Point gain')
         self.tree = ttk.Treeview(self.cwin,column=self.cols,show='headings',padding=30)
         for col in self.cols:
             self.tree.column(col,width=100,stretch=NO)
             self.tree.heading(col,text=col)
-        self.tree.place(x=30,y=100,width=720, height=300)
+        self.tree.place(x=30,y=100,width=800, height=300)
 
         #create components
         self.label_name=Label(self.cwin, text="Product Name :")
